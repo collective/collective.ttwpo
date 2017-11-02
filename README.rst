@@ -13,7 +13,18 @@ Translations for Plone UI with Zanata
 Features
 --------
 
-- Can be bullet points
+- Maps a Plone i18n-domain to a Zanata Projects Version (together with url/ credentials information)
+- Enables users to syncronizes a language.
+  Maps users/groups to languages in order to allow sync only for specific languages.
+- Implements a Zanata client Python API.
+- Implements a management view for users with *Sync* Buttons for the configured i18n-domains.
+  Enables a user to syncronizes selected languages (from all portal wide available filtered by per user allowed languages).
+  For each language a version may be selected (also downgrades are possible).
+- Implements a syncer API which uses the Zanata client Python API to pull the PO-files and saves them as files in the ZODB using
+  ``plone.resources`` folders as ``./zanata/domain/LANG-REVISION.po``
+- Implements a translation service using the selected REVISION-LANG PO-files from the resource.
+  The Plone translation service is a named utility where the name is the i18n-domain.
+  For every managed domain auch a utility will be registered as a local named utility.
 
 
 Examples
