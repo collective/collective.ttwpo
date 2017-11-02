@@ -20,10 +20,39 @@ ZanataCredentials = collections.namedtuple('Connection', 'url user token')
 
 class ZanataMethod(object):
 
-    def __init__(self, client, method, spec):
-        self.client = client
+    def __init__(self, endpoint, method, spec):
+        self.endpoint = endpoint
         self.method = method
         self.spec = spec
+
+    @property
+    def _credentials(self):
+        return self.endpoint.resource.client.credentials
+
+    def _path(self, **kwargs):
+        return self.spec['endpoint'].format(**kwargs)
+
+    def _url(self, **kwargs):
+        return self._credentials.url + self._path(**kwargs)
+
+    @property
+    def _session(self):
+        """a requests session for a logged in user
+        """
+        zreq = getRequest()
+        session_cache = getattr(zreq, CACHE_ATTR, None)
+        if session_cache is None:
+            session_cache = dict()
+            setattr(zreq, CACHE_ATTR, session_cache)
+        session = session_cache.get(self._credentials, None)
+        if session is None:
+            session = requests.Session()
+            session.headers.update({
+                'X-Auth-User': self._credentials.user,
+                'X-Auth-Token': self._credentials.token,
+            })
+            session_cache[self._credentials] = session
+        return session
 
     def __call__(self, payload, **kwargs):
         pass
@@ -36,14 +65,10 @@ class ZanataEndpoint(object):
         self.name = name
         self.spec = spec
 
-    @property
-    def client(self):
-        return self.resource.client
-
     def __getattr__(self, attribute):
         if attribute in self.spec['methods']:
             return ZanataMethod(
-                self.client,
+                self,
                 attribute,
                 self.spec
             )
@@ -82,25 +107,6 @@ class ZanataClient(object):
         credentials - a ZanataCredentials named tuple
         """
         self.credentials = credentials
-
-    @property
-    def _session(self):
-        """a requests session for a logged in user
-        """
-        zreq = getRequest()
-        session_cache = getattr(zreq, CACHE_ATTR, None)
-        if session_cache is None:
-            session_cache = dict()
-            setattr(zreq, CACHE_ATTR, session_cache)
-        session = session_cache.get(self.credentials, None)
-        if session is None:
-            session = requests.session(self.credentials.url)
-            session.headers.update({
-                'X-Auth-User': self.credentials.user,
-                'X-Auth-Token': self.credentials.token,
-            })
-            session_cache[self.credentials] = session
-        return session
 
     def __getattr__(self, attribute):
         if attribute in RESTAPI_SPEC:

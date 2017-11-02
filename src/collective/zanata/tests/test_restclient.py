@@ -29,3 +29,22 @@ class TestZanataClient(unittest.TestCase):
         zm = ze.PUT
         self.assertTrue(isinstance(zm, ZanataMethod))
         self.assertTrue(callable(zm))
+
+    def test_method(self):
+        from collective.zanata.zanataclient import ZanataCredentials
+        from collective.zanata.zanataclient import ZanataClient
+        credentials = ZanataCredentials(
+            'https://foo.bar/api',
+            'user',
+            'secret'
+        )
+        zc = ZanataClient(credentials)
+        zm = zc.AccountResource.accounts.PUT
+        self.assertEqual(
+            zm._path(username='foobar'),
+            '/accounts/u/foobar'
+        )
+        self.assertEqual(
+            zm._url(username='foobar'),
+            'https://foo.bar/api/accounts/u/foobar'
+        )
