@@ -1,0 +1,254 @@
+AccountResource:
+  accounts:
+    endpoint: /accounts/u/{username}
+    parameters:
+      username: User name that identifies an account
+    methods:
+      GET: application/vnd.zanata.account+json
+      PUT: application/vnd.zanata.account+json
+
+CopyTransResource:
+  copytrans:
+    endpoint: /copytrans/proj/{projectSlug}/iter/{iterationSlug}/doc/{docId}
+    parameters:
+      projectSlug: The project slug where to store the document.
+      iterationSlug: The project version slug where to store the document.
+      docId: The full Document identifier
+    methods:
+      GET: application/json
+      POST: application/json
+
+FileResource:
+  file_type_info:
+    endpoint: /file/file_type_info
+    methods:
+      GET: application/json
+  download:
+    endpoint: /file/download/{downloadId}
+    parameters:
+      downloadId: application/octet-stream
+    methods:
+      GET: application/octet-stream
+  upload_source:
+    endpoint: /file/source/{projectSlug}/{iterationSlug}
+    parameters:
+      projectSlug: The project slug where to store the document.
+      iterationSlug: The project version slug where to store the document.
+    methods:
+      POST: application/json
+  source:
+    endpoint: /file/source/{projectSlug}/{iterationSlug}/{fileType}
+    parameters:
+      projectSlug: The project slug where to store the document.
+      iterationSlug: The project version slug where to store the document.
+      fileType: use 'raw' for original source if available, or 'pot' to generate pot from source strings
+    methods:
+      GET: application/json
+  upload_translation:
+    endpoint: /file/translation/{projectSlug}/{iterationSlug}/{locale}
+    parameters:
+      projectSlug: The project slug where to store the document.
+      iterationSlug: The project version slug where to store the document.
+      locale: The locale (language) for the translation file.
+    methods:
+      POST: application/json
+  translation:
+    endpoint: /file/translation/{projectSlug}/{iterationSlug}/{locale}/{fileType}
+    parameters:
+      projectSlug: The project slug where to store the document.
+      iterationSlug: The project version slug where to store the document.
+      locale: The locale (language) for the translation file.
+      fileType: "File type to be downloaded. (Options: 'po', 'half_baked', 'baked')"
+    methods:
+      GET: application/json
+
+GlossaryResource:
+  glossary:
+    endpoint: /glossary
+    methods:
+      DELETE: application/json
+      POST: application/json
+  entries:
+    endpoint: /glossary/entries
+    methods:
+      GET: application/json
+      POST: application/json
+  file:
+    endpoint: /glossary/file
+    methods:
+      GET: application/octet-stream
+  info:
+    endpoint: /glossary/info
+    methods:
+      GET: application/json
+  qualifiedName:
+    endpoint: /glossary/qualifiedName
+    methods:
+      GET: application/json
+  entry:
+    endpoint: /glossary/entries/{id}
+    parameters:
+      id: id for source glossary term
+    methods:
+      DELETE: application/json
+
+
+ProjectIterationLocalesResource:
+  locales:
+    endpoint: /projects/p/{projectSlug}/iterations/i/{iterationSlug}/locales
+    parameters:
+      projectSlug: Project Identifier.
+      iterationSlug: The project version slug where to store the document.
+    methods:
+      GET: application/json
+
+ProjectLocalesResource:
+  locales:
+    endpoint: /projects/p/{projectSlug}/locales
+    parameters:
+      projectSlug: Project Identifier.
+    methods:
+      GET: application/json
+
+ProjectResource:
+  project:
+    endpoint: /projects/p/{projectSlug}
+    parameters:
+      projectSlug: Project Identifier.
+    methods:
+      GET: application/json
+      HEAD: application/json
+      PUT: application/json
+  glossary_qualifiedName:
+    endpoint: /projects/p/{projectSlug}/glossary/qualifiedName
+    parameters:
+      projectSlug: Project Identifier.
+    methods:
+      GET: application/json
+
+ProjectVersionResource:
+  version:
+    endpoint: /project/{projectSlug}/version/{versionSlug}
+    parameters:
+      projectSlug: Project Identifier.
+      versionSlug: Version Identifier
+    methods:
+      GET: application/json
+      HEAD: application/json
+      PUT: application/json
+  config:
+    endpoint: /project/{projectSlug}/version/{versionSlug}/config
+    parameters:
+      projectSlug: Project Identifier.
+      versionSlug: Version Identifier
+    methods:
+      GET: application/json
+  docs:
+    endpoint: /project/{projectSlug}/version/{versionSlug}/docs
+    parameters:
+      projectSlug: Project Identifier.
+      versionSlug: Version Identifier
+    methods:
+      GET: application/json
+  locales:
+    endpoint: /project/{projectSlug}/version/{versionSlug}/locales
+    parameters:
+      projectSlug: Project Identifier.
+      versionSlug: Version Identifier
+    methods:
+      GET: application/json
+  contributors:
+    endpoint: /project/{projectSlug}/version/{versionSlug}/contributors/{dateRange}
+    parameters:
+      projectSlug: Project Identifier.
+      versionSlug: Version Identifier
+      dateRange: date range from..to (yyyy-mm-dd..yyyy-mm-dd)
+    methods:
+      GET: application/json
+  status:
+    endpoint: /project/{projectSlug}/version/{versionSlug}/doc/{docId}/status/{localeId}
+    parameters:
+      projectSlug: Project Identifier.
+      versionSlug: Version Identifier
+      docId: The document identifier.
+      localeId: target locale, default to 'en-US'
+    methods:
+      GET: application/json
+
+ProjectsResource:
+  projects:
+    endpoint: /projects
+    methods:
+      GET: application/json
+
+SourceDocResource:
+  iterations:
+    endpoint: /projects/p/{projectSlug}/iterations/i/{iterationSlug}/r
+    parameters:
+      projectSlug: Project Identifier.
+      iterationSlug: Project Iteration identifier.
+    methods:
+      GET: application/json
+      HEAD: application/json
+      POST: application/json
+  iteration:
+    endpoint: /projects/p/{projectSlug}/iterations/i/{iterationSlug}/r/{id}
+    parameters:
+      projectSlug: Project Identifier.
+      iterationSlug: Project Iteration identifier.
+    methods:
+      DELETE: application/json
+      GET: application/json
+      PUT: application/json
+  meta:
+    endpoint: /projects/p/{projectSlug}/iterations/i/{iterationSlug}/r/{id}/meta
+    parameters:
+      projectSlug: Project Identifier.
+      iterationSlug: Project Iteration identifier.
+    methods:
+      GET: application/json
+      PUT: application/json
+
+StatisticsResource:
+  iter:
+    endpoint: /stats/proj/{projectSlug}/iter/{iterationSlug}
+    parameters:
+      projectSlug: Project Identifier.
+      iterationSlug: Project Iteration identifier.
+    methods:
+      GET: application/json
+  iter_doc:
+    endpoint: /stats/proj/{projectSlug}/iter/{iterationSlug}/doc/{docId}
+    parameters:
+      projectSlug: Project Identifier.
+      iterationSlug: Project Iteration identifier.
+      docId:
+    methods:
+      GET: application/json
+  contributions:
+    endpoint: /stats/project/{projectSlug}/version/{versionSlug}/contributor/{username}/{dateRange}
+    parameters:
+      projectSlug: Project Identifier.
+      iterationSlug: Project Iteration identifier.
+      username:
+      dateRange:
+    methods:
+      GET: application/json
+
+TranslatedDocResource:
+  translation:
+    endpoint: /projects/p/{projectSlug}/iterations/i/{iterationSlug}/r/{id}/translations/{locale}
+    parameters:
+      projectSlug: Project Identifier.
+      iterationSlug: Project Iteration identifier.
+      id:
+      locale:
+    methods:
+      DELETE: application/json
+      GET: application/json
+      PUT: application/json
+
+VersionResource:
+    endpoint: /version
+    methods:
+      GET: application/json

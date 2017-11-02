@@ -1,0 +1,28 @@
+language: python
+python: 2.7
+sudo: false
+cache:
+  directories:
+  - eggs
+  - downloads
+env:
+  matrix:
+    - PLONE_VERSION=5.1
+matrix:
+  fast_finish: true
+install:
+  - sed -ie "s#test-5.1.x#test-$PLONE_VERSION.x#" buildout.cfg
+  - pip install -U pip
+  - pip install -r https://raw.githubusercontent.com/plone/buildout.coredev/$PLONE_VERSION/requirements.txt
+  - bin/buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True annotate
+  - bin/buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True
+script:
+  - bin/code-analysis
+  - bin/test
+after_success:
+  - bin/createcoverage
+  - pip install coveralls
+  - coveralls
+notifications:
+  email:
+    - jk@kleinundpartner.at
