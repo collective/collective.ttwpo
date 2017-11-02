@@ -36,6 +36,10 @@ class ZanataMethod(object):
         return self._credentials.url + self._path(**kwargs)
 
     @property
+    def _headers(self):
+        return {'Accept': self.spec['methods'][self.method]}
+
+    @property
     def _session(self):
         """a requests session for a logged in user
         """
@@ -54,8 +58,14 @@ class ZanataMethod(object):
             session_cache[self._credentials] = session
         return session
 
-    def __call__(self, payload, **kwargs):
-        pass
+    def __call__(self, data=None, **kwargs):
+        req_method = getattr(self._session, self.method.lower())
+        resp = req_method(
+            self._url(**kwargs),
+            data=data,
+            headers=self._headers
+        )
+        return resp
 
 
 class ZanataEndpoint(object):
