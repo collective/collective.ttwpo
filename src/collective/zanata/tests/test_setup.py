@@ -30,6 +30,10 @@ class TestSetup(unittest.TestCase):
             ICollectiveZanataLayer,
             utils.registered_layers())
 
+    def test_zanata_folder(self):
+        from collective.zanata.setuphandlers import ZANATA_FOLDER
+        self.assertTrue(ZANATA_FOLDER in self.portal)
+
 
 class TestUninstall(unittest.TestCase):
 
@@ -54,3 +58,7 @@ class TestUninstall(unittest.TestCase):
             ICollectiveZanataLayer,
             utils.registered_layers()
         )
+
+    def test_zanata_folder_removed(self):
+        from collective.zanata.setuphandlers import ZANATA_FOLDER
+        self.assertTrue(ZANATA_FOLDER not in self.portal)

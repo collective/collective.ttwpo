@@ -21,7 +21,7 @@ Features
   Enables a user to syncronizes selected languages (from all portal wide available filtered by per user allowed languages).
   For each language a version may be selected (also downgrades are possible).
 - Implements a syncer API which uses the Zanata client Python API to pull the PO-files and saves them as files in the ZODB using
-  ``plone.resources`` folders as ``./zanata/domain/LANG-REVISION.po``
+  simple Zope folders and files as ``/Plone/portal_zanata/$DOMAIN/LANG-REVISION.po``
 - Implements a translation service using the selected REVISION-LANG PO-files from the resource.
   The Plone translation service is a named utility where the name is the i18n-domain.
   For every managed domain auch a utility will be registered as a local named utility.
