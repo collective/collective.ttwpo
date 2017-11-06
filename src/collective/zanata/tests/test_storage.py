@@ -67,5 +67,8 @@ class TestZanataStorage(unittest.TestCase):
             lang.current = 'nonexisting'
 
         lang.set_version('existing', 'some test data')
+        self.assertEqual(lang.get_version('existing'), 'some test data')
+
         lang.current = 'existing'
         self.assertEqual(lang.current, 'existing')
+        self.assertEqual(lang(), 'some test data')

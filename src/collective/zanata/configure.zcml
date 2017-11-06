@@ -12,7 +12,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="collective.zanata"
+      title="Zanata translation service connector"
       directory="profiles/default"
       description="Installs the collective.zanata add-on."
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -21,7 +21,7 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="collective.zanata (uninstall)"
+      title="Zanata translation service connector (uninstall)"
       directory="profiles/uninstall"
       description="Uninstalls the collective.zanata add-on."
       provides="Products.GenericSetup.interfaces.EXTENSION"
