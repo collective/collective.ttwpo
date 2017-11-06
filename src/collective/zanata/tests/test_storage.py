@@ -5,7 +5,7 @@ from collective.zanata.testing import COLLECTIVE_ZANATA_INTEGRATION_TESTING
 import unittest
 
 
-class TestZanataStorage(unittest.TestCase):
+class TestStorage(unittest.TestCase):
     """Test that collective.zanata is properly installed."""
 
     layer = COLLECTIVE_ZANATA_INTEGRATION_TESTING

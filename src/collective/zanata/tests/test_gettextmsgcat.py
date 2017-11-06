@@ -42,7 +42,7 @@ class TestGetTextMessageCatalog(unittest.TestCase):
 
     def test_non_existing_language(self):
         from collective.zanata.gettextmessagecatalog import LocalGettextMessageCatalog  # noqa
-        with self.assertRaises(KeyError):
+        with self.assertRaises(ValueError):
             LocalGettextMessageCatalog('foo', 'bar')
 
     def test_empty_language(self):
@@ -52,7 +52,7 @@ class TestGetTextMessageCatalog(unittest.TestCase):
         zd.language('de')
 
         from collective.zanata.gettextmessagecatalog import LocalGettextMessageCatalog  # noqa
-        with self.assertRaises(KeyError):
+        with self.assertRaises(ValueError):
             LocalGettextMessageCatalog('foo', 'bar')
 
     def test_filled_identifer(self):

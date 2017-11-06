@@ -22,14 +22,14 @@ class LocalGettextMessageCatalog(GettextMessageCatalog):
             self._gettext = self._catalog.gettext
 
     def reload(self):
-        domain = I18NDomainStorage(self.domain)
-        language = domain.language(self.language, create=False)
-        if language is None:
+        domain_storage = I18NDomainStorage(self.domain)
+        if self.language not in domain_storage.languages:
             raise ValueError(
                 'can not load msg catalog for non existing translation: '
                 'domain={0}, language={1}'.format(self.domain, self.language)
             )
-        mo = self._compiled_mo(language)
+        language_storage = domain_storage.language(self.language)
+        mo = self._compiled_mo(language_storage)
         self._catalog = GNUTranslations(mo)
 
     def _compiled_mo(self, language):
