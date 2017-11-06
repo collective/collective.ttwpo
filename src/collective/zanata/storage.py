@@ -78,8 +78,10 @@ class I18NDomainStorage(object):
             )
         self.storage = folder[name]
 
-    def language(self, lang):
-        return LanguageStorage(self, lang)
+    def language(self, lang, create=True):
+        if create or lang in self.storage:
+            return LanguageStorage(self, lang)
+        raise KeyError('language {0} was not created'.format(lang))
 
     @property
     def _settings(self):
