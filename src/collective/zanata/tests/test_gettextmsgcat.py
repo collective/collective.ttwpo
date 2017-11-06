@@ -40,11 +40,6 @@ class TestGetTextMessageCatalog(unittest.TestCase):
 
     layer = COLLECTIVE_ZANATA_INTEGRATION_TESTING
 
-    def test_non_existing_language(self):
-        from collective.zanata.gettextmessagecatalog import LocalGettextMessageCatalog  # noqa
-        with self.assertRaises(ValueError):
-            LocalGettextMessageCatalog('foo', 'bar')
-
     def test_empty_language(self):
         # prepare a storage
         from collective.zanata.storage import I18NDomainStorage
@@ -53,7 +48,7 @@ class TestGetTextMessageCatalog(unittest.TestCase):
 
         from collective.zanata.gettextmessagecatalog import LocalGettextMessageCatalog  # noqa
         with self.assertRaises(ValueError):
-            LocalGettextMessageCatalog('foo', 'bar')
+            LocalGettextMessageCatalog(zd.language('de'))
 
     def test_filled_identifer(self):
         # prepare a storage
@@ -64,7 +59,7 @@ class TestGetTextMessageCatalog(unittest.TestCase):
         zl.current = '1'
 
         from collective.zanata.gettextmessagecatalog import LocalGettextMessageCatalog  # noqa
-        lm = LocalGettextMessageCatalog('de', 'testdomain')
+        lm = LocalGettextMessageCatalog(zl)
         self.assertEqual(lm.getIdentifier(), 'collective.zanata/testdomain/de')
 
     def test_filled_compiled(self):
@@ -76,8 +71,8 @@ class TestGetTextMessageCatalog(unittest.TestCase):
         zl.current = '1'
 
         from collective.zanata.gettextmessagecatalog import LocalGettextMessageCatalog  # noqa
-        lm = LocalGettextMessageCatalog('de', 'testdomain')
-        mo = lm._compiled_mo(zl)
+        lm = LocalGettextMessageCatalog(zl)
+        mo = lm._compiled_mo()
         modata = mo.read()
         self.assertIn(
             '\xde\x12\x04',
@@ -97,7 +92,7 @@ class TestGetTextMessageCatalog(unittest.TestCase):
         zl.current = '1'
 
         from collective.zanata.gettextmessagecatalog import LocalGettextMessageCatalog  # noqa
-        lm = LocalGettextMessageCatalog('de', 'testdomain')
+        lm = LocalGettextMessageCatalog(zl)
 
         self.assertEqual(
             lm.getMessage('Watch Columbo'),
