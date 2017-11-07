@@ -8,7 +8,10 @@ from persistent import Persistent
 
 
 class LocalGettextMessageCatalog(Persistent, GettextMessageCatalog):
-    """A message catalog based on GNU gettext and Python's gettext module."""
+    """A persistent message catalog based on zope.i18n
+
+    it works on top of a language storage.
+    """
 
     def __init__(self, language_storage):
         """Initialize the message catalog"""
@@ -31,7 +34,7 @@ class LocalGettextMessageCatalog(Persistent, GettextMessageCatalog):
     def reload(self):
         if self.language_storage.current is None:
             raise ValueError(
-                'can not load msg catalog for non existing translation: '
+                'can not load msg catalog: no current translation set for '
                 'domain={0}, language={1}'.format(self.domain, self.language)
             )
         mo = self._compiled_mo()

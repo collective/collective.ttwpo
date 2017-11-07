@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
-from plone import api
 from collective.zanata.testing import COLLECTIVE_ZANATA_INTEGRATION_TESTING  # noqa
+from plone import api
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 
 import unittest
 
@@ -42,6 +44,7 @@ class TestUninstall(unittest.TestCase):
     def setUp(self):
         self.portal = self.layer['portal']
         self.installer = api.portal.get_tool('portal_quickinstaller')
+        setRoles(self.portal, TEST_USER_ID, ['Manager'])
         self.installer.uninstallProducts(['collective.zanata'])
 
     def test_product_uninstalled(self):

@@ -78,6 +78,14 @@ class I18NDomainStorage(object):
             )
         self.storage = folder[name]
 
+    @property
+    def translationdomain(self):
+        return getattr(self.storage, 'translationdomain', None)
+
+    @translationdomain.setter
+    def translationdomain(self, value):
+        self.storage.translationdomain = value
+
     def language(self, lang):
         return LanguageStorage(self, lang)
 

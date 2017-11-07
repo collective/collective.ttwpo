@@ -35,7 +35,7 @@ msgstr "$d Tage und $h Stunden"
 """
 
 
-class TestGetTextMessageCatalog(unittest.TestCase):
+class TestTranslationDomain(unittest.TestCase):
     """Test that collective.zanata is properly installed."""
 
     layer = COLLECTIVE_ZANATA_INTEGRATION_TESTING
