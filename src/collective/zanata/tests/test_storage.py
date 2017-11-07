@@ -6,7 +6,7 @@ import unittest
 
 
 class TestStorage(unittest.TestCase):
-    """Test that collective.zanata is properly installed."""
+    """Test that collective.zanata storage works."""
 
     layer = COLLECTIVE_ZANATA_INTEGRATION_TESTING
 

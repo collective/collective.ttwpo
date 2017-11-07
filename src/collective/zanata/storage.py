@@ -7,6 +7,12 @@ import OFS
 ZANATA_FOLDER = 'collective_zanata_translations'
 
 
+def is_existing_domain(name):
+    portal = api.portal.get()
+    folder = portal[ZANATA_FOLDER]
+    return name in folder
+
+
 class LanguageStorage(object):
 
     def __init__(self, domain, language):
@@ -70,7 +76,7 @@ class I18NDomainStorage(object):
         self.name = name
         portal = api.portal.get()
         folder = portal[ZANATA_FOLDER]
-        if name not in folder:
+        if not is_existing_domain(name):
             OFS.Folder.manage_addFolder(
                 folder,
                 name,

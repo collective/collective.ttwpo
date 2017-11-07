@@ -7,7 +7,6 @@ import unittest
 
 
 class TestZanataClient(unittest.TestCase):
-    """Test that collective.zanata is properly installed."""
 
     layer = COLLECTIVE_ZANATA_INTEGRATION_TESTING
 
