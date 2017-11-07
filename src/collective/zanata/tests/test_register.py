@@ -88,3 +88,20 @@ class TestRegister(unittest.TestCase):
             ltd.translate('Watch Columbo', target_language='de-at'),
             'Columbo schaun'
         )
+
+    def test_unregister_existing(self):
+        from collective.zanata.register import register_local_domain
+        register_local_domain('testdomain')
+
+        from collective.zanata.register import unregister_local_domain
+        unregister_local_domain('testdomain')
+        self.assertIsNone(self.domain_storage.translationdomain)
+
+        from zope.component import queryUtility
+        from zope.i18n import ITranslationDomain
+        self.assertIsNone(queryUtility(ITranslationDomain, name='testdomain'))
+
+    def test_unregister_non_existing(self):
+        from collective.zanata.register import unregister_local_domain
+        with self.assertRaises(ValueError):
+            unregister_local_domain('nonexisting')

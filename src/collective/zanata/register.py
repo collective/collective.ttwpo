@@ -57,3 +57,22 @@ def register_local_domain(name):
         provided=ITranslationDomain,
         name=name
     )
+
+
+def unregister_local_domain(name):
+    # check if this domain is registered
+    translation_domain = queryUtility(ITranslationDomain, name=name)
+    if translation_domain is None:
+        raise ValueError('Can not unregister not registered domain.')
+
+    # unregister as local utility
+    sm = getSiteManager()
+    sm.unregisterUtility(
+        translation_domain,
+        provided=ITranslationDomain,
+        name=name
+    )
+
+    # remove persistent object
+    domain_storage = I18NDomainStorage(name)
+    domain_storage.translationdomain = None
