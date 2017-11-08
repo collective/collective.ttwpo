@@ -7,6 +7,12 @@ import OFS
 ZANATA_FOLDER = 'collective_zanata_translations'
 
 
+def domain_names():
+    portal = api.portal.get()
+    folder = portal[ZANATA_FOLDER]
+    return sorted(folder.objectIds())
+
+
 def is_existing_domain(name):
     portal = api.portal.get()
     folder = portal[ZANATA_FOLDER]
@@ -102,41 +108,9 @@ class I18NDomainStorage(object):
                 yield name
 
     @property
-    def _settings(self):
+    def settings(self):
         settings = getattr(self.storage, 'settings', None)
         if settings is not None:
             return settings
         self.storage.settings = PersistentDict()
         return self.storage.settings
-
-    @property
-    def url(self):
-        return self._settings.get('zanata_url', None)
-
-    @url.setter
-    def url(self, value):
-        self._settings['zanata_url'] = value
-
-    @property
-    def project(self):
-        return self._settings.get('zanata_project', None)
-
-    @project.setter
-    def project(self, value):
-        self._settings['zanata_project'] = value
-
-    @property
-    def user(self):
-        return self._settings.get('zanata_user', None)
-
-    @user.setter
-    def user(self, value):
-        self._settings['zanata_user'] = value
-
-    @property
-    def token(self):
-        return self._settings.get('zanata_token', None)
-
-    @token.setter
-    def token(self, value):
-        self._settings['zanata_token'] = value

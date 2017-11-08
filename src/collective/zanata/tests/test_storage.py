@@ -23,21 +23,9 @@ class TestStorage(unittest.TestCase):
         from collective.zanata.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
 
-        self.assertIs(zd.url, None)
-        zd.url = 'urlfoo'
-        self.assertEquals(zd.url, 'urlfoo')
-
-        self.assertIs(zd.project, None)
-        zd.project = 'projectfoo'
-        self.assertEquals(zd.project, 'projectfoo')
-
-        self.assertIs(zd.user, None)
-        zd.user = 'userfoo'
-        self.assertEquals(zd.user, 'userfoo')
-
-        self.assertIs(zd.token, None)
-        zd.token = 'tokenfoo'
-        self.assertEquals(zd.token, 'tokenfoo')
+        from persistent.dict import PersistentDict
+        self.assertIsInstance(zd.settings, PersistentDict)
+        self.assertEquals(len(zd.settings), 0)
 
     def test_language(self):
         from collective.zanata.storage import I18NDomainStorage

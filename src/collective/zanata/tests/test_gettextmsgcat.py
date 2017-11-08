@@ -1,38 +1,9 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
+from collective.zanata.tests.data import TEST_PO_DE
 from collective.zanata.testing import COLLECTIVE_ZANATA_INTEGRATION_TESTING
 
 import unittest
-
-TEST_PO_DE = """\
-# Translation of testdomain.pot to German
-msgid ""
-msgstr ""
-"Project-Id-Version: Plone"
-"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE"
-"PO-Revision-Date: 2016-10-22 16:41-0500"
-"Last-Translator: Foo Bar <foo.bar@plone.org>"
-"Language-Team: German <i18n-de@plone.org>"
-"MIME-Version: 1.0"
-"Content-Type: text/plain; charset=UTF-8"
-"Content-Transfer-Encoding: 8bit"
-"Plural-Forms: nplurals=1; plural=0;"
-"Language-Code: de"
-"Language-Name: Deutsch"
-"Preferred-Encodings: utf-8 latin1"
-"Domain: plone"
-"X-Is-Fallback-For: de-at de-li de-lu de-ch de-de"
-"Language: de"
-"X-Generator: Poedit 1.5.4"
-
-#: testdomain/testdomain/interfaces.py:97
-msgid "Watch Columbo"
-msgstr "Columbo schaun"
-
-#: testdomain/testdomain/interfaces.py:109
-msgid "$d day and $h hours"
-msgstr "$d Tage und $h Stunden"
-"""
 
 
 class TestTranslationDomain(unittest.TestCase):
@@ -98,6 +69,6 @@ class TestTranslationDomain(unittest.TestCase):
             'Columbo schaun'
         )
         self.assertEqual(
-            lm.getMessage('$d day and $h hours'),
+            lm.getMessage('days_and_hours'),
             '$d Tage und $h Stunden'
         )
