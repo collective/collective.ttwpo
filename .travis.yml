@@ -1,29 +1,22 @@
 language: python
-python: 2.7.14
 sudo: false
 cache:
+  pip: true
   directories:
   - eggs
   - downloads
-env:
-  matrix:
-    - PLONE_VERSION=5.1
+python:
+  - 2.7
 matrix:
   fast_finish: true
 install:
-  - sed -ie "s#test-5.1.x#test-$PLONE_VERSION.x#" buildout.cfg
-  - virtualenv .
-  - bin/pip install -U pip
+  - virtualenv -p `which python` .
   - bin/pip install -r requirements.txt
-  - bin/buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True annotate
   - bin/buildout -N buildout:download-cache=downloads code-analysis:return-status-codes=True
 script:
   - bin/code-analysis
   - bin/test
 after_success:
   - bin/createcoverage
-  - bin/pip install coveralls
-  - bin/coveralls
-notifications:
-  email:
-    - jk@kleinundpartner.at
+  - pip install coveralls
+  - coveralls
