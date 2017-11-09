@@ -103,9 +103,10 @@ class I18NDomainStorage(object):
 
     @property
     def languages(self):
-        for name in self.storage:
-            if self.storage[name].current is not None:
-                yield name
+        return [
+            name for name in self.storage.objectIds()
+            if getattr(self.storage[name], 'current', None) is not None
+        ]
 
     @property
     def settings(self):

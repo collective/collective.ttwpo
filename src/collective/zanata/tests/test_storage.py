@@ -60,3 +60,24 @@ class TestStorage(unittest.TestCase):
         lang.current = 'existing'
         self.assertEqual(lang.current, 'existing')
         self.assertEqual(lang(), 'some test data')
+
+    def test_languages_empty(self):
+        from collective.zanata.storage import I18NDomainStorage
+        zd = I18NDomainStorage('testdomain')
+        self.assertListEqual(zd.languages, [])
+
+    def test_languages_filled_non_current(self):
+        from collective.zanata.storage import I18NDomainStorage
+        zd = I18NDomainStorage('testdomain')
+        zd.language('it')
+        zd.language('de')
+        self.assertListEqual(zd.languages, [])
+
+    def test_languages_filled_one_current(self):
+        from collective.zanata.storage import I18NDomainStorage
+        zd = I18NDomainStorage('testdomain')
+        zd.language('it')
+        lang_de = zd.language('de')
+        lang_de.set_version('v1', 'some test data')
+        lang_de.current = 'v1'
+        self.assertListEqual(zd.languages, ['de'])

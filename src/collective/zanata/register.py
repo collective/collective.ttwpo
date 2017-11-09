@@ -76,3 +76,13 @@ def unregister_local_domain(name):
     # remove persistent object
     domain_storage = I18NDomainStorage(name)
     domain_storage.translationdomain = None
+
+
+def reload_language(name, language):
+    translation_domain = queryUtility(ITranslationDomain, name=name)
+    if translation_domain is None:
+        raise ValueError('Can not reload not registered domain.')
+    cat_info = translation_domain.getCatalogsInfo()
+    if language not in cat_info:
+        raise ValueError('Can not reload language w/o catalogs.')
+    translation_domain.reloadCatalogs(cat_info[language])
