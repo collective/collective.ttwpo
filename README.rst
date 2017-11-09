@@ -57,6 +57,9 @@ and then running ``bin/buildout``
 Contribute
 ----------
 
+.. image:: https://travis-ci.org/collective/collective.zanata.svg?branch=master
+    :target: https://travis-ci.org/collective/collective.zanata
+
 - Issue Tracker: https://github.com/collective/collective.zanata/issues
 - Source Code: https://github.com/collective/collective.zanata
 
