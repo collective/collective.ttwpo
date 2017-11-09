@@ -19,6 +19,14 @@ def is_existing_domain(name):
     return name in folder
 
 
+def delete_domain(name):
+    portal = api.portal.get()
+    folder = portal[ZANATA_FOLDER]
+    if name not in folder:
+        raise ValueError('not existing domain')
+    folder.manage_delObjects([name])
+
+
 class LanguageStorage(object):
 
     def __init__(self, domain, language):

@@ -193,3 +193,103 @@ class TestApi(unittest.TestCase):
         self.assertIsNotNone(
             queryUtility(ITranslationDomain, name='testdomain')
         )
+
+    def test_delete_inactive_domain(self):
+        from collective.zanata import api
+        api.create('testdomain', languages=['de'])
+        # create initial activated version
+        api.update_language(
+            'testdomain',
+            'de',
+            'v1',
+            current=False,
+            data=TEST_PO_DE
+        )
+        api.delete('testdomain')
+        from plone import api as ploneapi
+        portal = ploneapi.portal.get()
+        from collective.zanata.storage import ZANATA_FOLDER
+        folder = portal[ZANATA_FOLDER]
+        self.assertNotIn('testdomain', folder)
+        from zope.component import queryUtility
+        from zope.i18n import ITranslationDomain
+        self.assertIsNone(
+            queryUtility(ITranslationDomain, name='testdomain')
+        )
+
+    def test_delete_active_domain(self):
+        from collective.zanata import api
+        api.create('testdomain', languages=['de'])
+        # create initial activated version
+        api.update_language(
+            'testdomain',
+            'de',
+            'v1',
+            current=True,
+            data=TEST_PO_DE
+        )
+        api.delete('testdomain')
+        from plone import api as ploneapi
+        portal = ploneapi.portal.get()
+        from collective.zanata.storage import ZANATA_FOLDER
+        folder = portal[ZANATA_FOLDER]
+        self.assertNotIn('testdomain', folder)
+        from zope.component import queryUtility
+        from zope.i18n import ITranslationDomain
+        self.assertIsNone(
+            queryUtility(ITranslationDomain, name='testdomain')
+        )
+
+    def test_delete_inactive_language(self):
+        from collective.zanata import api
+        LANGS = ['de', 'it', 'fr']
+        api.create('testdomain', languages=LANGS)
+        for lang in LANGS:
+            api.update_language(
+                'testdomain',
+                lang,
+                'v1',
+                current=False,
+                data='#testdata1 {0}'.format(lang)
+            )
+        from collective.zanata.storage import I18NDomainStorage
+        zd = I18NDomainStorage('testdomain')
+        self.assertListEqual(
+            zd.storage.objectIds(),
+            LANGS,
+        )
+        api.delete('testdomain', 'it')
+        self.assertListEqual(
+            zd.storage.objectIds(),
+            ['de', 'fr'],
+        )
+
+    def test_delete_active_language(self):
+        from collective.zanata import api
+        LANGS = ['de', 'it', 'fr']
+        api.create('testdomain', languages=LANGS)
+        for lang in LANGS:
+            api.update_language(
+                'testdomain',
+                lang,
+                'v1',
+                current=True,
+                data='#testdata1 {0}'.format(lang)
+            )
+        from collective.zanata.storage import I18NDomainStorage
+        zd = I18NDomainStorage('testdomain')
+        self.assertListEqual(
+            zd.storage.objectIds(),
+            LANGS,
+        )
+        from zope.component import queryUtility
+        from zope.i18n import ITranslationDomain
+        ltd = queryUtility(ITranslationDomain, name='testdomain')
+        self.assertIn('it', ltd.getCatalogsInfo())
+        api.delete('testdomain', 'it')
+        self.assertListEqual(
+            zd.storage.objectIds(),
+            ['de', 'fr'],
+        )
+        ltd = queryUtility(ITranslationDomain, name='testdomain')
+        self.assertNotIn('it', ltd.getCatalogsInfo())

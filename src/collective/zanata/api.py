@@ -9,6 +9,7 @@ from collective.zanata.register import register_new_language
 from collective.zanata.register import reload_language
 from collective.zanata.register import unregister_local_domain
 from collective.zanata.storage import domain_names
+from collective.zanata.storage import delete_domain
 from collective.zanata.storage import I18NDomainStorage
 from collective.zanata.storage import is_existing_domain
 
@@ -181,3 +182,31 @@ def delete(domain, language=None):
     :type language: string
     :returns: None
     """
+    if not is_existing_domain(domain):
+        raise ValueError(
+            'translation domain "{domain}" does not exist.'.format(
+                domain=domain
+            )
+        )
+    if not language:
+        # delete complete domain
+        try:  # always try, if it fails it was not activated which is fine
+            unregister_local_domain(domain)
+        except ValueError:
+            pass
+        delete_domain(domain)
+    else:
+        domain_storage = I18NDomainStorage(domain)
+        if language not in domain_storage.storage:
+            raise ValueError(
+                'language {language) does not exist in translation '
+                'domain "{domain}".'.format(
+                    domain=domain,
+                    language=language
+                )
+            )
+        do_reregister_domain = language in domain_storage.languages
+        domain_storage.storage.manage_delObjects([language])
+        if do_reregister_domain:
+            unregister_local_domain(domain)
+            register_local_domain(domain)
