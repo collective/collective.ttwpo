@@ -60,6 +60,9 @@ Contribute
 .. image:: https://travis-ci.org/collective/collective.zanata.svg?branch=master
     :target: https://travis-ci.org/collective/collective.zanata
 
+.. image:: https://coveralls.io/repos/github/collective/collective.zanata/badge.svg?branch=master
+    :target: https://coveralls.io/github/collective/collective.zanata?branch=master
+
 - Issue Tracker: https://github.com/collective/collective.zanata/issues
 - Source Code: https://github.com/collective/collective.zanata
 
