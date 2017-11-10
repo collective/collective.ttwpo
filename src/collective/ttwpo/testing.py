@@ -8,7 +8,7 @@ from plone.app.testing import PloneSandboxLayer
 import collective.ttwpo
 
 
-class CollectiveZanataLayer(PloneSandboxLayer):
+class CollectiveTTWPoLayer(PloneSandboxLayer):
 
     defaultBases = (PLONE_APP_CONTENTTYPES_FIXTURE,)
 
@@ -22,16 +22,16 @@ class CollectiveZanataLayer(PloneSandboxLayer):
         applyProfile(portal, 'collective.ttwpo:default')
 
 
-COLLECTIVE_ZANATA_FIXTURE = CollectiveZanataLayer()
+COLLECTIVE_ZANATA_FIXTURE = CollectiveTTWPoLayer()
 
 
 COLLECTIVE_ZANATA_INTEGRATION_TESTING = IntegrationTesting(
     bases=(COLLECTIVE_ZANATA_FIXTURE,),
-    name='CollectiveZanataLayer:IntegrationTesting'
+    name='CollectiveTTWPoLayer:IntegrationTesting'
 )
 
 
 COLLECTIVE_ZANATA_FUNCTIONAL_TESTING = FunctionalTesting(
     bases=(COLLECTIVE_ZANATA_FIXTURE,),
-    name='CollectiveZanataLayer:FunctionalTesting'
+    name='CollectiveTTWPoLayer:FunctionalTesting'
 )

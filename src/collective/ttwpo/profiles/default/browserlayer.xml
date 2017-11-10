@@ -2,6 +2,6 @@
 <layers>
   <layer
       name="collective.ttwpo"
-      interface="collective.ttwpo.interfaces.ICollectiveZanataLayer"
+      interface="collective.ttwpo.interfaces.ICollectiveTTWPoLayer"
       />
 </layers>

@@ -24,12 +24,12 @@ class TestSetup(unittest.TestCase):
             'collective.ttwpo'))
 
     def test_browserlayer(self):
-        """Test that ICollectiveZanataLayer is registered."""
+        """Test that ICollectiveTTWPoLayer is registered."""
         from collective.ttwpo.interfaces import (
-            ICollectiveZanataLayer)
+            ICollectiveTTWPoLayer)
         from plone.browserlayer import utils
         self.assertIn(
-            ICollectiveZanataLayer,
+            ICollectiveTTWPoLayer,
             utils.registered_layers())
 
     def test_ttwpo_folder(self):
@@ -55,12 +55,12 @@ class TestUninstall(unittest.TestCase):
             'collective.ttwpo'))
 
     def test_browserlayer_removed(self):
-        """Test that ICollectiveZanataLayer is removed."""
+        """Test that ICollectiveTTWPoLayer is removed."""
         from collective.ttwpo.interfaces import \
-            ICollectiveZanataLayer
+            ICollectiveTTWPoLayer
         from plone.browserlayer import utils
         self.assertNotIn(
-            ICollectiveZanataLayer,
+            ICollectiveTTWPoLayer,
             utils.registered_layers()
         )
 
