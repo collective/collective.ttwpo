@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from collective.zanata.storage import I18NDomainStorage
-from collective.zanata.storage import is_existing_domain
-from collective.zanata.gettextmessagecatalog import LocalGettextMessageCatalog
-from collective.zanata.translationdomain import LocalTranslationDomain
+from collective.ttwpo.storage import I18NDomainStorage
+from collective.ttwpo.storage import is_existing_domain
+from collective.ttwpo.gettextmessagecatalog import LocalGettextMessageCatalog
+from collective.ttwpo.translationdomain import LocalTranslationDomain
 from zope.component import getSiteManager
 from zope.component import queryUtility
 from zope.i18n import ITranslationDomain

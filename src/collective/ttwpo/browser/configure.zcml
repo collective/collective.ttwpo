@@ -2,11 +2,11 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="collective.zanata">
+    i18n_domain="collective.ttwpo">
 
   <!-- Publish static files -->
   <plone:static
-      name="collective.zanata"
+      name="collective.ttwpo"
       type="plone"
       directory="static"
       />

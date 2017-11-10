@@ -5,7 +5,7 @@ from plone.app.testing import FunctionalTesting
 from plone.app.testing import IntegrationTesting
 from plone.app.testing import PloneSandboxLayer
 
-import collective.zanata
+import collective.ttwpo
 
 
 class CollectiveZanataLayer(PloneSandboxLayer):
@@ -16,10 +16,10 @@ class CollectiveZanataLayer(PloneSandboxLayer):
         # Load any other ZCML that is required for your tests.
         # The z3c.autoinclude feature is disabled in the Plone fixture base
         # layer.
-        self.loadZCML(package=collective.zanata)
+        self.loadZCML(package=collective.ttwpo)
 
     def setUpPloneSite(self, portal):
-        applyProfile(portal, 'collective.zanata:default')
+        applyProfile(portal, 'collective.ttwpo:default')
 
 
 COLLECTIVE_ZANATA_FIXTURE = CollectiveZanataLayer()

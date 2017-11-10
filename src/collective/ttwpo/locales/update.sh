@@ -3,10 +3,10 @@
 # ``export PATH=$PATH:$BUILDOUT_DIR/bin`` when i18ndude is located in your buildout's bin directory)
 #
 # For every language you want to translate into you need a
-# locales/[language]/LC_MESSAGES/collective.zanata.po
-# (e.g. locales/de/LC_MESSAGES/collective.zanata.po)
+# locales/[language]/LC_MESSAGES/collective.ttwpo.po
+# (e.g. locales/de/LC_MESSAGES/collective.ttwpo.po)
 
-domain=collective.zanata
+domain=collective.ttwpo
 
 i18ndude rebuild-pot --pot $domain.pot --create $domain ../
 i18ndude sync --pot $domain.pot */LC_MESSAGES/$domain.po

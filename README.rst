@@ -3,7 +3,7 @@
    This text does not appear on pypi or github. It is a comment.
 
 =================
-collective.zanata
+collective.ttwpo
 =================
 
 **Work in progress!**
@@ -21,7 +21,7 @@ Features
   Enables a user to syncronizes selected languages (from all portal wide available filtered by per user allowed languages).
   For each language a version may be selected (also downgrades are possible).
 - Implements a syncer API which uses the Zanata client Python API to pull the PO-files and saves them as files in the ZODB using
-  simple Zope folders and files as ``/Plone/portal_zanata/$DOMAIN/LANG-REVISION.po``
+  simple Zope folders and files as ``/Plone/portal_ttwpo/$DOMAIN/LANG-REVISION.po``
 - Implements a translation service using the selected REVISION-LANG PO-files from the resource.
   The Plone translation service is a named utility where the name is the i18n-domain.
   For every managed domain auch a utility will be registered as a local named utility.
@@ -41,14 +41,14 @@ TODO
 Installation
 ------------
 
-Install collective.zanata by adding it to your buildout::
+Install collective.ttwpo by adding it to your buildout::
 
     [buildout]
 
     ...
 
     eggs =
-        collective.zanata
+        collective.ttwpo
 
 
 and then running ``bin/buildout``
@@ -57,14 +57,14 @@ and then running ``bin/buildout``
 Contribute
 ----------
 
-.. image:: https://travis-ci.org/collective/collective.zanata.svg?branch=master
-    :target: https://travis-ci.org/collective/collective.zanata
+.. image:: https://travis-ci.org/collective/collective.ttwpo.svg?branch=master
+    :target: https://travis-ci.org/collective/collective.ttwpo
 
-.. image:: https://coveralls.io/repos/github/collective/collective.zanata/badge.svg?branch=master
-    :target: https://coveralls.io/github/collective/collective.zanata?branch=master
+.. image:: https://coveralls.io/repos/github/collective/collective.ttwpo/badge.svg?branch=master
+    :target: https://coveralls.io/github/collective/collective.ttwpo?branch=master
 
-- Issue Tracker: https://github.com/collective/collective.zanata/issues
-- Source Code: https://github.com/collective/collective.zanata
+- Issue Tracker: https://github.com/collective/collective.ttwpo/issues
+- Source Code: https://github.com/collective/collective.ttwpo
 
 
 Support

@@ -1,4 +1,4 @@
-collective.zanata Copyright 2017, Jens W. Klein
+collective.ttwpo Copyright 2017, Jens W. Klein
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 2

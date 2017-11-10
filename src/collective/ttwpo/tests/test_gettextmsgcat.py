@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
-from collective.zanata.tests.data import TEST_PO_DE
-from collective.zanata.testing import COLLECTIVE_ZANATA_INTEGRATION_TESTING
+from collective.ttwpo.tests.data import TEST_PO_DE
+from collective.ttwpo.testing import COLLECTIVE_ZANATA_INTEGRATION_TESTING
 
 import unittest
 
@@ -12,35 +12,35 @@ class TestTranslationDomain(unittest.TestCase):
 
     def test_empty_language(self):
         # prepare a storage
-        from collective.zanata.storage import I18NDomainStorage
+        from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
         zd.language('de')
 
-        from collective.zanata.gettextmessagecatalog import LocalGettextMessageCatalog  # noqa
+        from collective.ttwpo.gettextmessagecatalog import LocalGettextMessageCatalog  # noqa
         with self.assertRaises(ValueError):
             LocalGettextMessageCatalog(zd.language('de'))
 
     def test_filled_identifer(self):
         # prepare a storage
-        from collective.zanata.storage import I18NDomainStorage
+        from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
         zl = zd.language('de')
         zl.set_version('1', TEST_PO_DE)
         zl.current = '1'
 
-        from collective.zanata.gettextmessagecatalog import LocalGettextMessageCatalog  # noqa
+        from collective.ttwpo.gettextmessagecatalog import LocalGettextMessageCatalog  # noqa
         lm = LocalGettextMessageCatalog(zl)
-        self.assertEqual(lm.getIdentifier(), 'collective.zanata/testdomain/de')
+        self.assertEqual(lm.getIdentifier(), 'collective.ttwpo/testdomain/de')
 
     def test_filled_compiled(self):
         # prepare a storage
-        from collective.zanata.storage import I18NDomainStorage
+        from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
         zl = zd.language('de')
         zl.set_version('1', TEST_PO_DE)
         zl.current = '1'
 
-        from collective.zanata.gettextmessagecatalog import LocalGettextMessageCatalog  # noqa
+        from collective.ttwpo.gettextmessagecatalog import LocalGettextMessageCatalog  # noqa
         lm = LocalGettextMessageCatalog(zl)
         mo = lm._compiled_mo()
         modata = mo.read()
@@ -55,13 +55,13 @@ class TestTranslationDomain(unittest.TestCase):
 
     def test_filled_message(self):
         # prepare a storage
-        from collective.zanata.storage import I18NDomainStorage
+        from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
         zl = zd.language('de')
         zl.set_version('1', TEST_PO_DE)
         zl.current = '1'
 
-        from collective.zanata.gettextmessagecatalog import LocalGettextMessageCatalog  # noqa
+        from collective.ttwpo.gettextmessagecatalog import LocalGettextMessageCatalog  # noqa
         lm = LocalGettextMessageCatalog(zl)
 
         self.assertEqual(

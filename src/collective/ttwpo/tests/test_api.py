@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
-from collective.zanata.tests.data import TEST_PO_DE
-from collective.zanata.tests.data import TEST_PO_DE_2
-from collective.zanata.testing import COLLECTIVE_ZANATA_INTEGRATION_TESTING
+from collective.ttwpo.tests.data import TEST_PO_DE
+from collective.ttwpo.tests.data import TEST_PO_DE_2
+from collective.ttwpo.testing import COLLECTIVE_ZANATA_INTEGRATION_TESTING
 
 import unittest
 
@@ -12,16 +12,16 @@ class TestApi(unittest.TestCase):
     layer = COLLECTIVE_ZANATA_INTEGRATION_TESTING
 
     def test_create(self):
-        from collective.zanata.storage import is_existing_domain
+        from collective.ttwpo.storage import is_existing_domain
         self.assertFalse(is_existing_domain('testdomain'))
 
-        from collective.zanata import api
+        from collective.ttwpo import api
         api.create('testdomain')
         self.assertTrue(is_existing_domain('testdomain'))
 
-        from collective.zanata import api
+        from collective.ttwpo import api
         api.create('otherdomain', languages=['de', 'fr'])
-        from collective.zanata.storage import I18NDomainStorage
+        from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('otherdomain')
         self.assertListEqual(
             zd.storage.objectIds(),
@@ -30,7 +30,7 @@ class TestApi(unittest.TestCase):
         )
 
     def test_list_domains(self):
-        from collective.zanata import api
+        from collective.ttwpo import api
         api.create('testdomain')
         api.create('otherdomain')
         self.assertListEqual(
@@ -39,9 +39,9 @@ class TestApi(unittest.TestCase):
         )
 
     def test_info(self):
-        from collective.zanata import api
+        from collective.ttwpo import api
         api.create('testdomain', languages=['de', 'fr', 'it'])
-        from collective.zanata.storage import I18NDomainStorage
+        from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
         zd.settings['foo'] = 'bar'
         zd.language('de').set_version('v1', '#testdata1')
@@ -61,7 +61,7 @@ class TestApi(unittest.TestCase):
         )
 
     def test_update_language_nonexisting_domain(self):
-        from collective.zanata import api
+        from collective.ttwpo import api
         with self.assertRaises(ValueError):
             api.update_language(
                 'testdomain',
@@ -72,7 +72,7 @@ class TestApi(unittest.TestCase):
             )
 
     def test_update_language_nonexisting_language(self):
-        from collective.zanata import api
+        from collective.ttwpo import api
         api.create('testdomain')
         with self.assertRaises(ValueError):
             api.update_language(
@@ -84,7 +84,7 @@ class TestApi(unittest.TestCase):
             )
 
     def test_update_language_initial_non_current(self):
-        from collective.zanata import api
+        from collective.ttwpo import api
         api.create('testdomain', languages=['de'])
         api.update_language(
             'testdomain',
@@ -98,13 +98,13 @@ class TestApi(unittest.TestCase):
         self.assertIsNotNone(
             queryUtility(ITranslationDomain, name='testdomain')
         )
-        from collective.zanata.storage import I18NDomainStorage
+        from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
         zl = zd.language('de')
         self.assertEqual(len(list(zl.storage)), 1)
 
     def test_update_language_switch_version_one_step(self):
-        from collective.zanata import api
+        from collective.ttwpo import api
         api.create('testdomain', languages=['de'])
         # create initial activated version
         api.update_language(
@@ -135,7 +135,7 @@ class TestApi(unittest.TestCase):
         )
 
     def test_update_language_switch_version_two_step(self):
-        from collective.zanata import api
+        from collective.ttwpo import api
         api.create('testdomain', languages=['de'])
         # create initial activated version
         api.update_language(
@@ -177,7 +177,7 @@ class TestApi(unittest.TestCase):
         )
 
     def test_update_language_disable_language(self):
-        from collective.zanata import api
+        from collective.ttwpo import api
         LANGS = ['de', 'it', 'fr']
         api.create('testdomain', languages=LANGS)
         for lang in LANGS:
@@ -195,7 +195,7 @@ class TestApi(unittest.TestCase):
         )
 
     def test_delete_inactive_domain(self):
-        from collective.zanata import api
+        from collective.ttwpo import api
         api.create('testdomain', languages=['de'])
         # create initial activated version
         api.update_language(
@@ -208,7 +208,7 @@ class TestApi(unittest.TestCase):
         api.delete('testdomain')
         from plone import api as ploneapi
         portal = ploneapi.portal.get()
-        from collective.zanata.storage import ZANATA_FOLDER
+        from collective.ttwpo.storage import ZANATA_FOLDER
         folder = portal[ZANATA_FOLDER]
         self.assertNotIn('testdomain', folder)
         from zope.component import queryUtility
@@ -218,7 +218,7 @@ class TestApi(unittest.TestCase):
         )
 
     def test_delete_active_domain(self):
-        from collective.zanata import api
+        from collective.ttwpo import api
         api.create('testdomain', languages=['de'])
         # create initial activated version
         api.update_language(
@@ -231,7 +231,7 @@ class TestApi(unittest.TestCase):
         api.delete('testdomain')
         from plone import api as ploneapi
         portal = ploneapi.portal.get()
-        from collective.zanata.storage import ZANATA_FOLDER
+        from collective.ttwpo.storage import ZANATA_FOLDER
         folder = portal[ZANATA_FOLDER]
         self.assertNotIn('testdomain', folder)
         from zope.component import queryUtility
@@ -241,7 +241,7 @@ class TestApi(unittest.TestCase):
         )
 
     def test_delete_inactive_language(self):
-        from collective.zanata import api
+        from collective.ttwpo import api
         LANGS = ['de', 'it', 'fr']
         api.create('testdomain', languages=LANGS)
         for lang in LANGS:
@@ -252,7 +252,7 @@ class TestApi(unittest.TestCase):
                 current=False,
                 data='#testdata1 {0}'.format(lang)
             )
-        from collective.zanata.storage import I18NDomainStorage
+        from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
         self.assertListEqual(
             zd.storage.objectIds(),
@@ -265,7 +265,7 @@ class TestApi(unittest.TestCase):
         )
 
     def test_delete_active_language(self):
-        from collective.zanata import api
+        from collective.ttwpo import api
         LANGS = ['de', 'it', 'fr']
         api.create('testdomain', languages=LANGS)
         for lang in LANGS:
@@ -276,7 +276,7 @@ class TestApi(unittest.TestCase):
                 current=True,
                 data='#testdata1 {0}'.format(lang)
             )
-        from collective.zanata.storage import I18NDomainStorage
+        from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
         self.assertListEqual(
             zd.storage.objectIds(),

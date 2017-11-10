@@ -4,7 +4,7 @@ from persistent.dict import PersistentDict
 
 import OFS
 
-ZANATA_FOLDER = 'collective_zanata_translations'
+ZANATA_FOLDER = 'collective_ttwpo_translations'
 
 
 def domain_names():

@@ -1,26 +1,26 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
-from collective.zanata.testing import COLLECTIVE_ZANATA_INTEGRATION_TESTING
+from collective.ttwpo.testing import COLLECTIVE_ZANATA_INTEGRATION_TESTING
 
 import unittest
 
 
 class TestStorage(unittest.TestCase):
-    """Test that collective.zanata storage works."""
+    """Test that collective.ttwpo storage works."""
 
     layer = COLLECTIVE_ZANATA_INTEGRATION_TESTING
 
     def test_init(self):
-        from collective.zanata.storage import I18NDomainStorage
+        from collective.ttwpo.storage import I18NDomainStorage
         zi18ndomain = I18NDomainStorage('testdomain')
         self.assertEqual(zi18ndomain.name, 'testdomain')
         self.assertEqual(
             zi18ndomain.storage.getPhysicalPath(),
-            ('', 'plone', 'collective_zanata_translations', 'testdomain')
+            ('', 'plone', 'collective_ttwpo_translations', 'testdomain')
         )
 
     def test_settings(self):
-        from collective.zanata.storage import I18NDomainStorage
+        from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
 
         from persistent.dict import PersistentDict
@@ -28,8 +28,8 @@ class TestStorage(unittest.TestCase):
         self.assertEquals(len(zd.settings), 0)
 
     def test_language(self):
-        from collective.zanata.storage import I18NDomainStorage
-        from collective.zanata.storage import LanguageStorage
+        from collective.ttwpo.storage import I18NDomainStorage
+        from collective.ttwpo.storage import LanguageStorage
         zd = I18NDomainStorage('testdomain')
         lang = zd.language('it')
         self.assertIsInstance(lang, LanguageStorage)
@@ -37,7 +37,7 @@ class TestStorage(unittest.TestCase):
         self.assertIn('it', zd.storage)
 
     def test_language_version_set_get(self):
-        from collective.zanata.storage import I18NDomainStorage
+        from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
         lang = zd.language('de')
 
@@ -46,7 +46,7 @@ class TestStorage(unittest.TestCase):
         self.assertEqual(lang.get_version('one'), 'some test data')
 
     def test_language_current(self):
-        from collective.zanata.storage import I18NDomainStorage
+        from collective.ttwpo.storage import I18NDomainStorage
 
         zd = I18NDomainStorage('testdomain')
         lang = zd.language('de')
@@ -62,19 +62,19 @@ class TestStorage(unittest.TestCase):
         self.assertEqual(lang(), 'some test data')
 
     def test_languages_empty(self):
-        from collective.zanata.storage import I18NDomainStorage
+        from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
         self.assertListEqual(zd.languages, [])
 
     def test_languages_filled_non_current(self):
-        from collective.zanata.storage import I18NDomainStorage
+        from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
         zd.language('it')
         zd.language('de')
         self.assertListEqual(zd.languages, [])
 
     def test_languages_filled_one_current(self):
-        from collective.zanata.storage import I18NDomainStorage
+        from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
         zd.language('it')
         lang_de = zd.language('de')

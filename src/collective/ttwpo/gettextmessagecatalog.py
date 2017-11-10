@@ -50,4 +50,4 @@ class LocalGettextMessageCatalog(Persistent, GettextMessageCatalog):
         return mf.getAsFile()
 
     def getIdentifier(self):
-        return 'collective.zanata/{0}/{1}'.format(self.domain, self.language)
+        return 'collective.ttwpo/{0}/{1}'.format(self.domain, self.language)

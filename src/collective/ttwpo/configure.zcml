@@ -2,7 +2,7 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:i18n="http://namespaces.zope.org/i18n"
-    i18n_domain="collective.zanata">
+    i18n_domain="collective.ttwpo">
 
   <i18n:registerTranslations directory="locales" />
 
@@ -14,7 +14,7 @@
       name="default"
       title="Zanata translation service connector"
       directory="profiles/default"
-      description="Installs the collective.zanata add-on."
+      description="Installs the collective.ttwpo add-on."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       post_handler=".setuphandlers.post_install"
       />
@@ -23,13 +23,13 @@
       name="uninstall"
       title="Zanata translation service connector (uninstall)"
       directory="profiles/uninstall"
-      description="Uninstalls the collective.zanata add-on."
+      description="Uninstalls the collective.ttwpo add-on."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       post_handler=".setuphandlers.uninstall"
       />
 
   <utility
       factory=".setuphandlers.HiddenProfiles"
-      name="collective.zanata-hiddenprofiles" />
+      name="collective.ttwpo-hiddenprofiles" />
 
 </configure>

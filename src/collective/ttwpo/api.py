@@ -4,14 +4,14 @@ This is the public API
 
 Use when interacting from browser views, control-panels and syncer code etc.
 """
-from collective.zanata.register import register_local_domain
-from collective.zanata.register import register_new_language
-from collective.zanata.register import reload_language
-from collective.zanata.register import unregister_local_domain
-from collective.zanata.storage import domain_names
-from collective.zanata.storage import delete_domain
-from collective.zanata.storage import I18NDomainStorage
-from collective.zanata.storage import is_existing_domain
+from collective.ttwpo.register import register_local_domain
+from collective.ttwpo.register import register_new_language
+from collective.ttwpo.register import reload_language
+from collective.ttwpo.register import unregister_local_domain
+from collective.ttwpo.storage import domain_names
+from collective.ttwpo.storage import delete_domain
+from collective.ttwpo.storage import I18NDomainStorage
+from collective.ttwpo.storage import is_existing_domain
 
 
 def create(domain, languages=[]):
@@ -44,10 +44,10 @@ def info(domain):
 
         {
             'settings': {
-                # zanata connection settings
-                'type': 'zanata',  # for future use, always zanata for now
-                'url': 'https://some.zanata.server/subpath/restapi',
-                'project': project identifier (short one from URL) in zanata
+                # ttwpo connection settings
+                'type': 'ttwpo',  # for future use, always ttwpo for now
+                'url': 'https://some.ttwpo.server/subpath/restapi',
+                'project': project identifier (short one from URL) in ttwpo
                 'user': 'joe',
                 'token': '1234567890abcdef',
             },

@@ -1,5 +1,5 @@
 ====================
-collective.zanata
+collective.ttwpo
 ====================
 
 User documentation

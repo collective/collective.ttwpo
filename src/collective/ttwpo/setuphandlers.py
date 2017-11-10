@@ -2,7 +2,7 @@
 from plone import api
 from Products.CMFPlone.interfaces import INonInstallable
 from zope.interface import implementer
-from collective.zanata.storage import ZANATA_FOLDER
+from collective.ttwpo.storage import ZANATA_FOLDER
 
 import OFS
 
@@ -13,7 +13,7 @@ class HiddenProfiles(object):
     def getNonInstallableProfiles(self):
         """Hide uninstall profile from site-creation and quickinstaller"""
         return [
-            'collective.zanata:uninstall',
+            'collective.ttwpo:uninstall',
         ]
 
 
@@ -25,7 +25,7 @@ def post_install(context):
         OFS.Folder.manage_addFolder(
             portal,
             ZANATA_FOLDER,
-            title='collective.zanata Translations'
+            title='collective.ttwpo Translations'
         )
 
 
