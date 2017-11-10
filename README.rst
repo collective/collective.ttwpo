@@ -8,24 +8,21 @@ collective.ttwpo
 
 **Work in progress!**
 
-Translations for Plone UI with Zanata
+Translations for Plone UI TTW with options to connect to translations services.
 
 Features
 --------
 
-- Maps a Plone i18n-domain to a Zanata Projects Version (together with url/ credentials information)
-- Enables users to syncronizes a language.
-  Maps users/groups to languages in order to allow sync only for specific languages.
-- Implements a Zanata client Python API.
-- Implements a management view for users with *Sync* Buttons for the configured i18n-domains.
-  Enables a user to syncronizes selected languages (from all portal wide available filtered by per user allowed languages).
-  For each language a version may be selected (also downgrades are possible).
-- Implements a syncer API which uses the Zanata client Python API to pull the PO-files and saves them as files in the ZODB using
-  simple Zope folders and files as ``/Plone/portal_ttwpo/$DOMAIN/LANG-REVISION.po``
-- Implements a translation service using the selected REVISION-LANG PO-files from the resource.
-  The Plone translation service is a named utility where the name is the i18n-domain.
-  For every managed domain auch a utility will be registered as a local named utility.
+- Create an i18n-domain and languages variants TTW (also delete them).
+- Add GNU Gettext (``*.po``) files TTW to a language.
+- Manage different versions of a GNU Gettext file and set one as current.
+- Configured users or groups are able to manage a language (create/delete/set current).
+- Fetch GNU Gettext files from configured translations services. So far only `Zanata <http://zanata.org/>`_ is supported.
 
+Current Limitions
+-----------------
+
+- it is not yet possible to override global, file-system configured (zcml) i18n-domains.
 
 Examples
 --------
