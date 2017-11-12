@@ -11,4 +11,12 @@
       directory="static"
       />
 
+  <browser:page
+      name="ttwpo-controlpanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".controlpanel.ControlPanelView"
+      template="controlpanel.pt"
+      permission="cmf.ManagePortal"
+      />
+
 </configure>

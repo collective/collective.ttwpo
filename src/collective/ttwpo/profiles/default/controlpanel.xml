@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<object name="portal_controlpanel">
+  <configlet title="TTW PO Support"
+             action_id="ttwpo"
+             appId="collective.ttpo"
+             category="plone-advanced"
+             condition_expr=""
+             url_expr="string:${portal_url}/ttwpo-controlpanel"
+             visible="True">
+    <permission>Manage Portal</permission>
+  </configlet>
+</object>
