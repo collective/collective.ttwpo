@@ -9,28 +9,105 @@
 <body>
 
 <metal:main fill-slot="prefs_configlet_main">
-  <h1>TTW PO Control Panel</h1>
+  <h1 i18n:translate="controlpanel_heading">TTW PO Control Panel</h1>
+  <p i18n:translate="controlpanel_description">
+    Manage user interface translations with GNU Gettext (*.po) files through-the-web.
+    Configure a synchronisation with a translation-webservice (currently only Zanata is supported).
+  </p>
   <table class="listing">
     <thead>
       <tr>
-        <th>I18N-Domain</th>
-        <th>Languages</th>
-        <th><a href="#" class="plone-btn plone-btn-success plone-btn-sm" role="button">Add I18N-Domain</a></th>
+        <th i18n:translate="">I18N-Domain</th>
+        <th i18n:translate="">Actions</th>
+        <th i18n:translate="">Locales</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>testdomain
-        </td>
-        <td>de, it, en, fr
+        <td>
+            <strong>testdomain</strong>
         </td>
         <td>
-            <a href="#" class="plone-btn plone-btn-primary plone-btn-sm" role="button">edit languages</a>
-            <a href="#" class="plone-btn plone-btn-primary plone-btn-sm" role="button">configure synchronization</a>
-            <a href="#" class="plone-btn plone-btn-danger plone-btn-sm" role="button">delete</a>
+            <p>
+                <label for="sync">synchronisation options</label>
+                <textarea
+                   name="sync"
+                   placeholder="expected: JSON mapping with at least one key 'type' and arbitary options matching the configured service."
+                />
+                <a href="#"
+                   class="plone-btn plone-btn-primary plone-btn-sm"
+                   role="button"
+                   i18n:translate="">save</a>
+            </p>
+            <p><a href="#"
+               class="plone-btn plone-btn-danger plone-btn-sm"
+               role="button"
+               i18n:translate="">delete i18n-domain</a></p>
+        </td>
+        <td>
+            <table class="listing">
+                <tr>
+                    <td>de</td>
+                    <td>
+                        <a href="#"
+                           i18n:translate=""
+                           role="button"
+                           class="plone-btn plone-btn-primary plone-btn-xs">manage</a>
+                        <a href="#"
+                           i18n:translate=""
+                           role="button"
+                           class="plone-btn plone-btn-danger plone-btn-xs">delete</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>fr</td>
+                    <td>
+                        <a href="#"
+                           i18n:translate=""
+                           role="button"
+                           class="plone-btn plone-btn-primary plone-btn-xs">manage</a>
+                        <a href="#"
+                           i18n:translate=""
+                           role="button"
+                           class="plone-btn plone-btn-danger plone-btn-xs">delete</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>it</td>
+                    <td>
+                        <a href="#"
+                           i18n:translate=""
+                           role="button"
+                           class="plone-btn plone-btn-primary plone-btn-xs">manage</a>
+                        <a href="#"
+                           i18n:translate=""
+                           role="button"
+                           class="plone-btn plone-btn-danger plone-btn-xs">delete</a>
+                    </td>
+                </tr>
+            </table>
+            <form>
+                <div class="input-group">
+                  <input type="text"
+                         name="language"
+                         placeholder="locale (language) name(s) to create?" />
+                  <span class="input-group-btn">
+                    <button class="btn plone-btn plone-btn-success" type="button">Create</button>
+                  </span>
+                </div>
+            </form>
         </td>
       </tr>
     </tbody>
-  </table></metal:main>
+  </table>
+  <form>
+    <div class="input-group">
+      <input type="text" name="i18ndomain" placeholder="name of new i18ndomain?" />
+      <span class="input-group-btn">
+        <button class="btn plone-btn plone-btn-success" type="button">Create I18N-Domain</button>
+      </span>
+    </div>
+  </form>
+</metal:main>
 </body>
 </html>
