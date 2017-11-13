@@ -19,8 +19,8 @@ Features
 - Configured users or groups are able to manage a language (create/delete/set current).
 - Fetch GNU Gettext files from configured translations services. So far only `Zanata <http://zanata.org/>`_ is supported.
 
-Current Limitions
------------------
+Current Limitations
+-------------------
 
 - it is not yet possible to override global, file-system configured (zcml) i18n-domains.
 
