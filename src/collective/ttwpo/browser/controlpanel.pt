@@ -27,11 +27,16 @@
         <tr tal:define="info python:view.domain_info(domain)">
           <td>
               <h3>${domain}</h3>
+              <p><a href="${python:context.absolute_url()}/ttwpo-manage/${domain}"
+                 i18n:translate=""
+                 role="button"
+                 class="plone-btn plone-btn-primary plone-btn-xs">manage files</a>
+              </p>
               <p><a href="${python:context.absolute_url()}/ttwpo-controlpanel-deletedomain?domain=${domain}&_authenticator=${context/@@authenticator/token}"
                  class="plone-btn plone-btn-danger plone-btn-sm"
                  role="button"
                  i18n:translate="">delete</a>
-               </p>
+              </p>
           </td>
           <td>
             <form action="${python:context.absolute_url()}/ttwpo-controlpanel-savedomainoptions" method="post">
@@ -52,10 +57,6 @@
                   <tr tal:repeat="locale python: info['languages']">
                       <td><strong>${locale}</strong></td>
                       <td>
-                          <a href="${python:context.absolute_url()}/ttwpo-manage_language?domain=${domain}&locale=${locale}"
-                             i18n:translate=""
-                             role="button"
-                             class="plone-btn plone-btn-primary plone-btn-xs">manage</a>
                           <a href="${python:context.absolute_url()}/ttwpo-controlpanel-deletelanguage?domain=${domain}&locale=${locale}&_authenticator=${context/@@authenticator/token}"
                              i18n:translate=""
                              role="button"
