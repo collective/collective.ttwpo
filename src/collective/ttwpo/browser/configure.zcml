@@ -11,12 +11,37 @@
       directory="static"
       />
 
-  <browser:page
-      name="ttwpo-controlpanel"
+  <!-- Control Panel -->
+  <browser:pages
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      layer="collective.ttwpo.interfaces.ICollectiveTTWPoLayer"
       class=".controlpanel.ControlPanelView"
-      template="controlpanel.pt"
       permission="cmf.ManagePortal"
-      />
+      >
+    <browser:page
+        name="ttwpo-controlpanel"
+        template="controlpanel.pt"
+        />
+    <browser:page
+        name="ttwpo-controlpanel-createdomain"
+        attribute="create_domain"
+        />
+    <browser:page
+        name="ttwpo-controlpanel-savedomainoptions"
+        attribute="save_domain_options"
+        />
+    <browser:page
+        name="ttwpo-controlpanel-deletedomain"
+        attribute="delete_domain"
+        />
+    <browser:page
+        name="ttwpo-controlpanel-addlanguages"
+        attribute="add_languages"
+        />
+    <browser:page
+        name="ttwpo-controlpanel-deletelanguage"
+        attribute="delete_language"
+        />
+  </browser:pages>
 
 </configure>
