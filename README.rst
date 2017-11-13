@@ -51,8 +51,8 @@ Install collective.ttwpo by adding it to your buildout::
 and then running ``bin/buildout``
 
 
-Contribute
-----------
+Contributions and Source Code
+-----------------------------
 
 .. image:: https://travis-ci.org/collective/collective.ttwpo.svg?branch=master
     :target: https://travis-ci.org/collective/collective.ttwpo
@@ -60,14 +60,22 @@ Contribute
 .. image:: https://coveralls.io/repos/github/collective/collective.ttwpo/badge.svg?branch=master
     :target: https://coveralls.io/github/collective/collective.ttwpo?branch=master
 
-- Issue Tracker: https://github.com/collective/collective.ttwpo/issues
-- Source Code: https://github.com/collective/collective.ttwpo
+If you want to help with the development (improvement, update, bug-fixing, ...) of ``collective.ttwpo`` this is a great idea!
 
+The code is located in the `GitHub Collective <https://github.com/collective/collective.ttwpo>`_.
 
-Support
--------
+You can clone it or `get access to the GitHub Collective <https://collective.github.com/>`_ and work directly on the project.
 
-If you are having issues, please let me know: jens@bluedynamics.com
+Maintainers are Jens Klein and the `BlueDynamics Alliance <https://bluedynamics.com/>`_ developer team.
+
+We appreciate any contribution and if a release is needed to be done on pypi, please just contact one of us:
+`dev@bluedynamics dot com <mailto:dev@bluedynamics.com>`_
+
+If you are having issues, please let me know:
+
+- File an issue at the `TTWPO Issue Tracker <https://github.com/collective/collective.ttwpo/issues>`_.
+
+- or just write me an email to jens@bluedynamics.com -
 
 
 License
