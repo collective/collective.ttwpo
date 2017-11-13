@@ -18,7 +18,7 @@
     <thead>
       <tr>
         <th i18n:translate="">I18N-Domain</th>
-        <th i18n:translate="">Synchronisation Ooptions</th>
+        <th i18n:translate="">Synchronisation Options</th>
         <th i18n:translate="">Locales</th>
       </tr>
     </thead>
@@ -48,8 +48,8 @@
             </form>
           </td>
           <td>
-              <table class="listing" tal:condition="python:False #info['languages']">
-                  <tr tal:repeat="locale python:False #info['languages']">
+              <table class="listing" tal:condition="python: info['languages']">
+                  <tr tal:repeat="locale python: info['languages']">
                       <td><strong>${locale}</strong></td>
                       <td>
                           <a href="${python:context.absolute_url()}/ttwpo-manage_language?domain=${domain}&locale=${locale}"

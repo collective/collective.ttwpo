@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xml:lang="en" lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="collective.ttwpo">
+
+<body>
+
+<metal:main fill-slot="main">
+  <tal:if tal:condition="python: view.domain is None">
+    <h1 i18n:translate="manage_listing_heading">Manage I18N-Domains</h1>
+    <p i18n:translate="">Select an i18n-domain to manage.</p>
+    <ul>
+      <li tal:repeat="domain view/get_domains">
+        <a href="${python:context.absolute_url()}/ttwpo-manage/${domain}">${domain}</a>
+      </li>
+    </ul>
+  </tal:if>
+  <tal:if tal:condition="python: view.domain is not None">
+    <h1 i18n:translate="manage_single_heading">Manage I18N-Domain <span i18n:name="domain">${view/domain}</span></h1>
+  </tal:if>
+</metal:main>
+</body>
+</html>
