@@ -2,7 +2,6 @@
 from plone import api
 from persistent.dict import PersistentDict
 
-import OFS
 
 ZANATA_FOLDER = 'collective_ttwpo_translations'
 
@@ -33,8 +32,7 @@ class LanguageStorage(object):
         self.domain = domain
         self.language = language
         if language not in domain.storage:
-            OFS.Folder.manage_addFolder(
-                domain.storage,
+            domain.storage.manage_addFolder(
                 language,
                 title='{0}: {1}'.format(domain.name, language)
             )
@@ -56,8 +54,7 @@ class LanguageStorage(object):
         """
         if version in self.versions:
             self.storage.manage_delObjects([version])
-        OFS.Image.manage_addFile(
-            self.storage,
+        self.storage.manage_addFile(
             version,
             title='{0}-{1}: {2}'.format(
                 self.domain.name,
@@ -90,13 +87,14 @@ class I18NDomainStorage(object):
         self.name = name
         portal = api.portal.get()
         folder = portal[ZANATA_FOLDER]
-        if not is_existing_domain(name):
-            OFS.Folder.manage_addFolder(
-                folder,
+        if name not in folder.objectIds():
+            folder.manage_addFolder(
                 name,
                 title='i18n domain {0}'.format(name)
             )
         self.storage = folder[name]
+        if getattr(self.storage, 'settings', None) is None:
+            self.storage.settings = PersistentDict()
 
     @property
     def translationdomain(self):
@@ -118,8 +116,4 @@ class I18NDomainStorage(object):
 
     @property
     def settings(self):
-        settings = getattr(self.storage, 'settings', None)
-        if settings is not None:
-            return settings
-        self.storage.settings = PersistentDict()
-        return self.storage.settings
+        return getattr(self.storage, 'settings', None)

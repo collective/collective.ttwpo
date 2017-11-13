@@ -167,7 +167,10 @@ def update_settings(domain, settings):
             )
         )
     domain_storage = I18NDomainStorage(domain)
-    domain_storage.settings.update(settings)
+    if settings is not None:
+        domain_storage.settings.update(settings)
+    else:
+        domain_storage.settings.clear()
 
 
 def delete(domain, language=None):
