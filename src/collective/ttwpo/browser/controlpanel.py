@@ -26,7 +26,7 @@ class ControlPanelView(BrowserView):
         return json.dumps(value, indent=True)
 
     def get_domains(self):
-        return poapi.domains()
+        return sorted(poapi.domains())
 
     def create_domain(self):
         # form submit
@@ -35,13 +35,13 @@ class ControlPanelView(BrowserView):
         if not parts:
             return self._message(_('No i18n-domain provided!'), 'error')
         domain = parts[0]
-        languages = parts[1:]
+        locales = parts[1:]
         if domain in poapi.domains():
             return self._message(
                 _('Can not create i18n-domain, it already exists!'),
                 'error'
             )
-        poapi.create(domain, languages)
+        poapi.create(domain, locales)
         return self._redirect()
 
     def domain_info(self, domain):
@@ -79,7 +79,7 @@ class ControlPanelView(BrowserView):
             ),
         )
 
-    def add_languages(self):
+    def add_locales(self):
         # form submit
         form_input_domain = self.request.form.get('domain', '')
         form_input_locales = self.request.form.get('locales', '')
@@ -91,7 +91,7 @@ class ControlPanelView(BrowserView):
             _('Created ${number} locales.', mapping={'number': len(locales)})
         )
 
-    def delete_language(self):
+    def delete_locale(self):
         # form submit
         form_input_domain = self.request.form.get('domain', '')
         form_input_locale = self.request.form.get('locale', '')

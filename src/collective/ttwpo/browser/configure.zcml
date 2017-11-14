@@ -35,12 +35,12 @@
         attribute="delete_domain"
         />
     <browser:page
-        name="ttwpo-controlpanel-addlanguages"
-        attribute="add_languages"
+        name="ttwpo-controlpanel-addlocales"
+        attribute="add_locales"
         />
     <browser:page
-        name="ttwpo-controlpanel-deletelanguage"
-        attribute="delete_language"
+        name="ttwpo-controlpanel-deletelocale"
+        attribute="delete_locale"
         />
   </browser:pages>
 
@@ -54,6 +54,10 @@
     <browser:page
         name="ttwpo-manage"
         template="manage.pt"
+        />
+    <browser:page
+        name="ttwpo-manage-upload"
+        attribute="upload"
         />
   </browser:pages>
 

@@ -10,21 +10,21 @@ class TestTranslationDomain(unittest.TestCase):
 
     layer = COLLECTIVE_ZANATA_INTEGRATION_TESTING
 
-    def test_empty_language(self):
+    def test_empty_locale(self):
         # prepare a storage
         from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
-        zd.language('de')
+        zd.locale('de')
 
         from collective.ttwpo.gettextmessagecatalog import LocalGettextMessageCatalog  # noqa
         with self.assertRaises(ValueError):
-            LocalGettextMessageCatalog(zd.language('de'))
+            LocalGettextMessageCatalog(zd.locale('de'))
 
     def test_filled_identifer(self):
         # prepare a storage
         from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
-        zl = zd.language('de')
+        zl = zd.locale('de')
         zl.set_version('1', TEST_PO_DE)
         zl.current = '1'
 
@@ -36,7 +36,7 @@ class TestTranslationDomain(unittest.TestCase):
         # prepare a storage
         from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
-        zl = zd.language('de')
+        zl = zd.locale('de')
         zl.set_version('1', TEST_PO_DE)
         zl.current = '1'
 
@@ -57,7 +57,7 @@ class TestTranslationDomain(unittest.TestCase):
         # prepare a storage
         from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
-        zl = zd.language('de')
+        zl = zd.locale('de')
         zl.set_version('1', TEST_PO_DE)
         zl.current = '1'
 

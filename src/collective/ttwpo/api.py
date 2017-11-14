@@ -5,28 +5,30 @@ This is the public API
 Use when interacting from browser views, control-panels and syncer code etc.
 """
 from collective.ttwpo.register import register_local_domain
-from collective.ttwpo.register import register_new_language
-from collective.ttwpo.register import reload_language
+from collective.ttwpo.register import register_new_locale
+from collective.ttwpo.register import reload_locale
 from collective.ttwpo.register import unregister_local_domain
 from collective.ttwpo.storage import domain_names
 from collective.ttwpo.storage import delete_domain
 from collective.ttwpo.storage import I18NDomainStorage
 from collective.ttwpo.storage import is_existing_domain
 
+from collections import OrderedDict
 
-def create(domain, languages=[]):
-    """Creates a domain or a language in a domain or both.
+
+def create(domain, locales=[]):
+    """Creates a domain or a locale in a domain or both.
 
     :param domain: name of the i18ndomain to create
-        (or use if language is given)
+        (or use if locale is given)
     :type domain: string
-    :param languages: short names of languages to create.
-    :type languages: list of string
+    :param locales: short names of locales to create.
+    :type locales: list of string
     :returns: None
     """
     domain_storage = I18NDomainStorage(domain)
-    for language in languages:
-        domain_storage.language(language)
+    for locale in locales:
+        domain_storage.locale(locale)
 
 
 def domains():
@@ -38,7 +40,7 @@ def domains():
 
 
 def info(domain):
-    """Reads a domain or language and builds an information dictionary.
+    """Reads a domain or locale and builds an information dictionary.
 
     example info::
 
@@ -51,12 +53,7 @@ def info(domain):
                 'user': 'joe',
                 'token': '1234567890abcdef',
             },
-            'languages': {
-                'en': {
-                    'master': {
-                        current: True,
-                    },
-                },
+            'locales': {
                 'de': {
                     'master': {
                         current: True,
@@ -65,12 +62,17 @@ def info(domain):
                         current: False,
                     },
                 },
+                'en': {
+                    'master': {
+                        current: True,
+                    },
+                },
             },
             'permissions': {},  # for future use
         }
 
     :param domain: name of the i18ndomain to create
-        (or use if language is given)
+        (or use if locale is given)
     :type domain: string
     :returns: None if domain does not exist, otherwise info dict as described
         above.
@@ -78,28 +80,28 @@ def info(domain):
     result = dict(permissions={})
     domain_storage = I18NDomainStorage(domain)
     result['settings'] = dict(domain_storage.settings)
-    result['languages'] = dict()
-    for language in domain_storage.storage.objectIds():
+    result['locales'] = OrderedDict()
+    for locale in sorted(domain_storage.storage.objectIds()):
         record = dict()
-        result['languages'][language] = record
-        language_storage = domain_storage.language(language)
-        for version in language_storage.storage.objectIds():
+        result['locales'][locale] = record
+        locale_storage = domain_storage.locale(locale)
+        for version in locale_storage.storage.objectIds():
             record[version] = {
-                'current': version == language_storage.current
+                'current': version == locale_storage.current
             }
     return result
 
 
-def update_language(domain, language, version, current=False, data=None):
-    """Updates (or creates) a version in a language of a domain.
+def update_locale(domain, locale, version, current=False, data=None):
+    """Updates (or creates) a version in a locale of a domain.
 
-    If data is not given, the language must prior exist so it can be set or
+    If data is not given, the locale must prior exist so it can be set or
     unset to current.
 
     :param domain: name of the i18ndomain to manipulate
     :type domain: string
-    :param language: short name of language
-    :type language: string
+    :param locale: short name of locale
+    :type locale: string
     :param version: name of the version to use
     :type version: string
     :param version: Wether or not to use the given version as current.
@@ -115,39 +117,39 @@ def update_language(domain, language, version, current=False, data=None):
             )
         )
     domain_storage = I18NDomainStorage(domain)
-    if language not in domain_storage.storage:
+    if locale not in domain_storage.storage:
         raise ValueError(
-            'language "{language}" does not exist in '
+            'locale "{locale}" does not exist in '
             'domain "{domain}".'.format(
                 domain=domain,
-                language=language,
+                locale=locale,
             )
         )
-    language_storage = domain_storage.language(language)
+    locale_storage = domain_storage.locale(locale)
 
     # record states before operations
-    has_activated_languages = bool(domain_storage.languages)
-    given_version_is_active = version == language_storage.current
-    do_activate_domain = current and not has_activated_languages
-    do_activate_language = current and language not in domain_storage.languages
-    do_disable_language = not current and given_version_is_active
+    has_activated_locales = bool(domain_storage.locales)
+    given_version_is_active = version == locale_storage.current
+    do_activate_domain = current and not has_activated_locales
+    do_activate_locale = current and locale not in domain_storage.locales
+    do_disable_locale = not current and given_version_is_active
 
     # storage interaction
     if data is not None:
-        language_storage.set_version(version, data)
+        locale_storage.set_version(version, data)
     if current and not given_version_is_active:
-        language_storage.current = version
-        if not (do_activate_domain or do_activate_language):
-            reload_language(domain, language)
+        locale_storage.current = version
+        if not (do_activate_domain or do_activate_locale):
+            reload_locale(domain, locale)
 
     # registrations
     if do_activate_domain:
         register_local_domain(domain)
-    elif do_activate_language:
-        register_new_language(domain, language)
-    elif do_disable_language:
+    elif do_activate_locale:
+        register_new_locale(domain, locale)
+    elif do_disable_locale:
         unregister_local_domain(domain)
-        if domain_storage.languages:
+        if domain_storage.locales:
             register_local_domain(domain)
 
 
@@ -173,16 +175,16 @@ def update_settings(domain, settings):
         domain_storage.settings.clear()
 
 
-def delete(domain, language=None):
-    """Deletes a domain or a language in a domain.
+def delete(domain, locale=None):
+    """Deletes a domain or a locale in a domain.
 
-    If language is not given the whole domain will be deleted.
+    If locale is not given the whole domain will be deleted.
 
     :param domain: name of the i18ndomain to delete
-        (or its language if given)
+        (or its locale if given)
     :type domain: string
-    :param language: short name of language to delete (optional).
-    :type language: string
+    :param locale: short name of locale to delete (optional).
+    :type locale: string
     :returns: None
     """
     if not is_existing_domain(domain):
@@ -191,7 +193,7 @@ def delete(domain, language=None):
                 domain=domain
             )
         )
-    if not language:
+    if not locale:
         # delete complete domain
         try:  # always try, if it fails it was not activated which is fine
             unregister_local_domain(domain)
@@ -200,16 +202,16 @@ def delete(domain, language=None):
         delete_domain(domain)
     else:
         domain_storage = I18NDomainStorage(domain)
-        if language not in domain_storage.storage:
+        if locale not in domain_storage.storage:
             raise ValueError(
-                'language {language) does not exist in translation '
+                'locale {locale) does not exist in translation '
                 'domain "{domain}".'.format(
                     domain=domain,
-                    language=language
+                    locale=locale
                 )
             )
-        do_reregister_domain = language in domain_storage.languages
-        domain_storage.storage.manage_delObjects([language])
+        do_reregister_domain = locale in domain_storage.locales
+        domain_storage.storage.manage_delObjects([locale])
         if do_reregister_domain:
             unregister_local_domain(domain)
             register_local_domain(domain)

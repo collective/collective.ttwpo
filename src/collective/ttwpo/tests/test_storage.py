@@ -27,29 +27,29 @@ class TestStorage(unittest.TestCase):
         self.assertIsInstance(zd.settings, PersistentDict)
         self.assertEquals(len(zd.settings), 0)
 
-    def test_language(self):
+    def test_locale(self):
         from collective.ttwpo.storage import I18NDomainStorage
-        from collective.ttwpo.storage import LanguageStorage
+        from collective.ttwpo.storage import LocaleStorage
         zd = I18NDomainStorage('testdomain')
-        lang = zd.language('it')
-        self.assertIsInstance(lang, LanguageStorage)
-        self.assertEqual(lang.language, 'it')
+        lang = zd.locale('it')
+        self.assertIsInstance(lang, LocaleStorage)
+        self.assertEqual(lang.locale, 'it')
         self.assertIn('it', zd.storage)
 
-    def test_language_version_set_get(self):
+    def test_locale_version_set_get(self):
         from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
-        lang = zd.language('de')
+        lang = zd.locale('de')
 
         lang.set_version('one', 'some test data')
         self.assertIn('one', lang.storage)
         self.assertEqual(lang.get_version('one'), 'some test data')
 
-    def test_language_current(self):
+    def test_locale_current(self):
         from collective.ttwpo.storage import I18NDomainStorage
 
         zd = I18NDomainStorage('testdomain')
-        lang = zd.language('de')
+        lang = zd.locale('de')
 
         with self.assertRaises(ValueError):
             lang.current = 'nonexisting'
@@ -61,23 +61,23 @@ class TestStorage(unittest.TestCase):
         self.assertEqual(lang.current, 'existing')
         self.assertEqual(lang(), 'some test data')
 
-    def test_languages_empty(self):
+    def test_locales_empty(self):
         from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
-        self.assertListEqual(zd.languages, [])
+        self.assertListEqual(zd.locales, [])
 
-    def test_languages_filled_non_current(self):
+    def test_locales_filled_non_current(self):
         from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
-        zd.language('it')
-        zd.language('de')
-        self.assertListEqual(zd.languages, [])
+        zd.locale('it')
+        zd.locale('de')
+        self.assertListEqual(zd.locales, [])
 
-    def test_languages_filled_one_current(self):
+    def test_locales_filled_one_current(self):
         from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
-        zd.language('it')
-        lang_de = zd.language('de')
+        zd.locale('it')
+        lang_de = zd.locale('de')
         lang_de.set_version('v1', 'some test data')
         lang_de.current = 'v1'
-        self.assertListEqual(zd.languages, ['de'])
+        self.assertListEqual(zd.locales, ['de'])

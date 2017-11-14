@@ -13,7 +13,7 @@ class TestRegister(unittest.TestCase):
     def setUp(self):
         from collective.ttwpo.storage import I18NDomainStorage
         self.domain_storage = I18NDomainStorage('testdomain')
-        zl = self.domain_storage.language('de')
+        zl = self.domain_storage.locale('de')
         zl.set_version('1', TEST_PO_DE)
         zl.current = '1'
 
@@ -34,28 +34,28 @@ class TestRegister(unittest.TestCase):
             'Columbo schaun'
         )
 
-    def test_register_new_language_non_existing(self):
+    def test_register_new_locale_non_existing(self):
         from collective.ttwpo.register import register_local_domain
         register_local_domain('testdomain')
-        from collective.ttwpo.register import register_new_language
+        from collective.ttwpo.register import register_new_locale
         with self.assertRaises(ValueError):
-            register_new_language('testdomain', 'nonexisting')
+            register_new_locale('testdomain', 'nonexisting')
 
-    def test_register_new_language_already_registered(self):
+    def test_register_new_locale_already_registered(self):
         from collective.ttwpo.register import register_local_domain
         register_local_domain('testdomain')
-        from collective.ttwpo.register import register_new_language
+        from collective.ttwpo.register import register_new_locale
         with self.assertRaises(ValueError):
-            register_new_language('testdomain', 'de')
+            register_new_locale('testdomain', 'de')
 
-    def test_register_new_language(self):
+    def test_register_new_locale(self):
         from collective.ttwpo.register import register_local_domain
         register_local_domain('testdomain')
-        zl = self.domain_storage.language('de-at')
+        zl = self.domain_storage.locale('de-at')
         zl.set_version('1', TEST_PO_DE)
         zl.current = '1'
-        from collective.ttwpo.register import register_new_language
-        register_new_language('testdomain', 'de-at')
+        from collective.ttwpo.register import register_new_locale
+        register_new_locale('testdomain', 'de-at')
         from zope.component import queryUtility
         from zope.i18n import ITranslationDomain
         ltd = queryUtility(ITranslationDomain, name='testdomain')

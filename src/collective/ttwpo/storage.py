@@ -26,17 +26,17 @@ def delete_domain(name):
     folder.manage_delObjects([name])
 
 
-class LanguageStorage(object):
+class LocaleStorage(object):
 
-    def __init__(self, domain, language):
+    def __init__(self, domain, locale):
         self.domain = domain
-        self.language = language
-        if language not in domain.storage:
+        self.locale = locale
+        if locale not in domain.storage:
             domain.storage.manage_addFolder(
-                language,
-                title='{0}: {1}'.format(domain.name, language)
+                locale,
+                title='{0}: {1}'.format(domain.name, locale)
             )
-        self.storage = domain.storage[language]
+        self.storage = domain.storage[locale]
 
     @property
     def versions(self):
@@ -58,7 +58,7 @@ class LanguageStorage(object):
             version,
             title='{0}-{1}: {2}'.format(
                 self.domain.name,
-                self.language,
+                self.locale,
                 version
             ),
             file=data
@@ -104,11 +104,11 @@ class I18NDomainStorage(object):
     def translationdomain(self, value):
         self.storage.translationdomain = value
 
-    def language(self, lang):
-        return LanguageStorage(self, lang)
+    def locale(self, lang):
+        return LocaleStorage(self, lang)
 
     @property
-    def languages(self):
+    def locales(self):
         return [
             name for name in self.storage.objectIds()
             if getattr(self.storage[name], 'current', None) is not None

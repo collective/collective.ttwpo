@@ -53,24 +53,24 @@
             </form>
           </td>
           <td>
-              <table class="listing" tal:condition="python: info['languages']">
-                  <tr tal:repeat="locale python: info['languages']">
+              <table class="listing" tal:condition="python: info['locales']">
+                  <tr tal:repeat="locale python: info['locales']">
                       <td><strong>${locale}</strong></td>
                       <td>
-                          <a href="${python:context.absolute_url()}/ttwpo-controlpanel-deletelanguage?domain=${domain}&locale=${locale}&_authenticator=${context/@@authenticator/token}"
+                          <a href="${python:context.absolute_url()}/ttwpo-controlpanel-deletelocale?domain=${domain}&locale=${locale}&_authenticator=${context/@@authenticator/token}"
                              i18n:translate=""
                              role="button"
                              class="plone-btn plone-btn-danger plone-btn-xs">delete</a>
                       </td>
                   </tr>
               </table>
-              <form action="${python:context.absolute_url()}/ttwpo-controlpanel-addlanguages" method="post">
+              <form action="${python:context.absolute_url()}/ttwpo-controlpanel-addlocales" method="post">
                   <div class="input-group">
                     <span tal:replace="structure context/@@authenticator/authenticator"/>
                     <input type="hidden" name="domain" value="${domain}">
                     <input type="text"
                            name="locales"
-                           placeholder="locale (language) name(s) to create?" />
+                           placeholder="locale (locale) name(s) to create?" />
                     <span class="input-group-btn">
                       <button class="btn plone-btn plone-btn-success" type="submit">Create</button>
                     </span>

@@ -20,7 +20,7 @@ class TestApi(unittest.TestCase):
         self.assertTrue(is_existing_domain('testdomain'))
 
         from collective.ttwpo import api
-        api.create('otherdomain', languages=['de', 'fr'])
+        api.create('otherdomain', locales=['de', 'fr'])
         from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('otherdomain')
         self.assertListEqual(
@@ -40,17 +40,17 @@ class TestApi(unittest.TestCase):
 
     def test_info(self):
         from collective.ttwpo import api
-        api.create('testdomain', languages=['de', 'fr', 'it'])
+        api.create('testdomain', locales=['de', 'fr', 'it'])
         from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
         zd.settings['foo'] = 'bar'
-        zd.language('de').set_version('v1', '#testdata1')
-        zd.language('de').set_version('v2', '#testdata2')
-        zd.language('de').current = 'v2'
+        zd.locale('de').set_version('v1', '#testdata1')
+        zd.locale('de').set_version('v2', '#testdata2')
+        zd.locale('de').current = 'v2'
         self.assertDictEqual(
             api.info('testdomain'),
             {
-                'languages': {
+                'locales': {
                     'de': {'v1': {'current': False}, 'v2': {'current': True}},
                     'fr': {},
                     'it': {},
@@ -60,10 +60,10 @@ class TestApi(unittest.TestCase):
             }
         )
 
-    def test_update_language_nonexisting_domain(self):
+    def test_update_locale_nonexisting_domain(self):
         from collective.ttwpo import api
         with self.assertRaises(ValueError):
-            api.update_language(
+            api.update_locale(
                 'testdomain',
                 'de',
                 'v1',
@@ -71,11 +71,11 @@ class TestApi(unittest.TestCase):
                 data='#testdata1'
             )
 
-    def test_update_language_nonexisting_language(self):
+    def test_update_locale_nonexisting_locale(self):
         from collective.ttwpo import api
         api.create('testdomain')
         with self.assertRaises(ValueError):
-            api.update_language(
+            api.update_locale(
                 'testdomain',
                 'de',
                 'v1',
@@ -83,10 +83,10 @@ class TestApi(unittest.TestCase):
                 data='#testdata1'
             )
 
-    def test_update_language_initial_non_current(self):
+    def test_update_locale_initial_non_current(self):
         from collective.ttwpo import api
-        api.create('testdomain', languages=['de'])
-        api.update_language(
+        api.create('testdomain', locales=['de'])
+        api.update_locale(
             'testdomain',
             'de',
             'v1',
@@ -100,14 +100,14 @@ class TestApi(unittest.TestCase):
         )
         from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
-        zl = zd.language('de')
+        zl = zd.locale('de')
         self.assertEqual(len(list(zl.storage)), 1)
 
-    def test_update_language_switch_version_one_step(self):
+    def test_update_locale_switch_version_one_step(self):
         from collective.ttwpo import api
-        api.create('testdomain', languages=['de'])
+        api.create('testdomain', locales=['de'])
         # create initial activated version
-        api.update_language(
+        api.update_locale(
             'testdomain',
             'de',
             'v1',
@@ -122,7 +122,7 @@ class TestApi(unittest.TestCase):
             'Columbo schaun'
         )
         # add a new active version
-        api.update_language(
+        api.update_locale(
             'testdomain',
             'de',
             'v2',
@@ -134,11 +134,11 @@ class TestApi(unittest.TestCase):
             'Columbo gucken'
         )
 
-    def test_update_language_switch_version_two_step(self):
+    def test_update_locale_switch_version_two_step(self):
         from collective.ttwpo import api
-        api.create('testdomain', languages=['de'])
+        api.create('testdomain', locales=['de'])
         # create initial activated version
-        api.update_language(
+        api.update_locale(
             'testdomain',
             'de',
             'v1',
@@ -153,7 +153,7 @@ class TestApi(unittest.TestCase):
             'Columbo schaun'
         )
         # add a new inactive version
-        api.update_language(
+        api.update_locale(
             'testdomain',
             'de',
             'v2',
@@ -165,7 +165,7 @@ class TestApi(unittest.TestCase):
             'Columbo schaun'
         )
         # activate version
-        api.update_language(
+        api.update_locale(
             'testdomain',
             'de',
             'v2',
@@ -176,12 +176,12 @@ class TestApi(unittest.TestCase):
             'Columbo gucken'
         )
 
-    def test_update_language_disable_language(self):
+    def test_update_locale_disable_locale(self):
         from collective.ttwpo import api
         LANGS = ['de', 'it', 'fr']
-        api.create('testdomain', languages=LANGS)
+        api.create('testdomain', locales=LANGS)
         for lang in LANGS:
-            api.update_language(
+            api.update_locale(
                 'testdomain',
                 lang,
                 'v1',
@@ -196,9 +196,9 @@ class TestApi(unittest.TestCase):
 
     def test_delete_inactive_domain(self):
         from collective.ttwpo import api
-        api.create('testdomain', languages=['de'])
+        api.create('testdomain', locales=['de'])
         # create initial activated version
-        api.update_language(
+        api.update_locale(
             'testdomain',
             'de',
             'v1',
@@ -219,9 +219,9 @@ class TestApi(unittest.TestCase):
 
     def test_delete_active_domain(self):
         from collective.ttwpo import api
-        api.create('testdomain', languages=['de'])
+        api.create('testdomain', locales=['de'])
         # create initial activated version
-        api.update_language(
+        api.update_locale(
             'testdomain',
             'de',
             'v1',
@@ -240,12 +240,12 @@ class TestApi(unittest.TestCase):
             queryUtility(ITranslationDomain, name='testdomain')
         )
 
-    def test_delete_inactive_language(self):
+    def test_delete_inactive_locale(self):
         from collective.ttwpo import api
         LANGS = ['de', 'it', 'fr']
-        api.create('testdomain', languages=LANGS)
+        api.create('testdomain', locales=LANGS)
         for lang in LANGS:
-            api.update_language(
+            api.update_locale(
                 'testdomain',
                 lang,
                 'v1',
@@ -264,12 +264,12 @@ class TestApi(unittest.TestCase):
             ['de', 'fr'],
         )
 
-    def test_delete_active_language(self):
+    def test_delete_active_locale(self):
         from collective.ttwpo import api
         LANGS = ['de', 'it', 'fr']
-        api.create('testdomain', languages=LANGS)
+        api.create('testdomain', locales=LANGS)
         for lang in LANGS:
-            api.update_language(
+            api.update_locale(
                 'testdomain',
                 lang,
                 'v1',

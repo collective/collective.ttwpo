@@ -14,7 +14,7 @@ class TestTranslationDomain(unittest.TestCase):
     def setUp(self):
         from collective.ttwpo.storage import I18NDomainStorage
         self.domain_storage = I18NDomainStorage('testdomain')
-        zl = self.domain_storage.language('de')
+        zl = self.domain_storage.locale('de')
         zl.set_version('1', TEST_PO_DE)
         zl.current = '1'
 
@@ -27,7 +27,7 @@ class TestTranslationDomain(unittest.TestCase):
         from collective.ttwpo.translationdomain import LocalTranslationDomain
         ltd = LocalTranslationDomain(self.domain_storage.name)
         from collective.ttwpo.gettextmessagecatalog import LocalGettextMessageCatalog  # noqa
-        lmc = LocalGettextMessageCatalog(self.domain_storage.language('de'))
+        lmc = LocalGettextMessageCatalog(self.domain_storage.locale('de'))
         ltd.addCatalog(lmc)
         self.assertEqual(
             ltd.translate('Watch Columbo', target_language='de'),

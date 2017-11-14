@@ -8,20 +8,20 @@ from zope.component import queryUtility
 from zope.i18n import ITranslationDomain
 
 
-def register_new_language(domain, language):
+def register_new_locale(domain, locale):
     domain_storage = I18NDomainStorage(domain)
-    if language in domain_storage.translationdomain.getCatalogsInfo():
+    if locale in domain_storage.translationdomain.getCatalogsInfo():
         raise ValueError(
-            'Can not register already registered language {0} to domain'
-            '{1}'.format(language, domain)
+            'Can not register already registered locale {0} to domain'
+            '{1}'.format(locale, domain)
         )
-    if language not in domain_storage.languages:
+    if locale not in domain_storage.locales:
         raise ValueError(
-            'Can not register non-existing language {0} to domain'
-            '{1}'.format(language, domain)
+            'Can not register non-existing locale {0} to domain'
+            '{1}'.format(locale, domain)
         )
-    language_storage = domain_storage.language(language)
-    catalog = LocalGettextMessageCatalog(language_storage)
+    locale_storage = domain_storage.locale(locale)
+    catalog = LocalGettextMessageCatalog(locale_storage)
     domain_storage.translationdomain.addCatalog(catalog)
 
 
@@ -45,9 +45,9 @@ def register_local_domain(name):
     domain_storage.translationdomain = translation_domain
 
     # fill with all existing translation_domains
-    for lang_name in domain_storage.languages:
-        language_storage = domain_storage.language(lang_name)
-        catalog = LocalGettextMessageCatalog(language_storage)
+    for lang_name in domain_storage.locales:
+        locale_storage = domain_storage.locale(lang_name)
+        catalog = LocalGettextMessageCatalog(locale_storage)
         translation_domain.addCatalog(catalog)
 
     # register as local utility
@@ -78,11 +78,11 @@ def unregister_local_domain(name):
     domain_storage.translationdomain = None
 
 
-def reload_language(name, language):
+def reload_locale(name, locale):
     translation_domain = queryUtility(ITranslationDomain, name=name)
     if translation_domain is None:
         raise ValueError('Can not reload not registered domain.')
     cat_info = translation_domain.getCatalogsInfo()
-    if language not in cat_info:
-        raise ValueError('Can not reload language w/o catalogs.')
-    translation_domain.reloadCatalogs(cat_info[language])
+    if locale not in cat_info:
+        raise ValueError('Can not reload locale w/o catalogs.')
+    translation_domain.reloadCatalogs(cat_info[locale])
