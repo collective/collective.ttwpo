@@ -20,6 +20,47 @@
   </tal:if>
   <tal:if tal:condition="python: view.domain is not None">
     <h1 i18n:translate="manage_single_heading">Manage I18N-Domain <span i18n:name="domain">${view/domain}</span></h1>
+    <table class="listing"
+           tal:define="info view/info">
+      <thead>
+        <tr>
+          <th i18n:translate="">Locale</th>
+          <th i18n:translate="">Gettext (*.po) Files</th>
+          <th i18n:translate="">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tal:loop tal:repeat="locale python:info['locales']">
+          <tr>
+            <td rowspan="${python:1 + len(info['locales'][locale])}">${locale}</td>
+            <td>
+              <form action="${python:context.absolute_url()}/ttwpo-manage-upload/${view/domain}" method="post" enctype="multipart/form-data">
+                <span tal:replace="structure context/@@authenticator/authenticator"/>
+                <input type="hidden" name="locale" value="${locale}" />
+                <input type="file" name="pofile" />
+                make current
+                <input type="checkbox" name="current" aria-label="set to current" />
+                <button class="btn plone-btn plone-btn-success" type="submit">Upload</button>
+              </form>
+            </td>
+            <td><button class="btn plone-btn plone-btn-primary plone-btn-sm">fetch from Zanata</button></td>
+          </tr>
+          <tr tal:repeat="file python:info['locales'][locale]">
+            <td>${file}</td>
+            <td>
+              <a href="${python:context.absolute_url()}/ttwpo-manage-delete/${view/domain}?file=foo&_authenticator=${context/@@authenticator/token}"
+                 i18n:translate=""
+                 role="button"
+                 class="plone-btn plone-btn-danger plone-btn-sm">delete</a>
+              <a href="${python:context.absolute_url()}/ttwpo-manage-current/${view/domain}?file=foo&_authenticator=${context/@@authenticator/token}"
+                 i18n:translate=""
+                 role="button"
+                 class="plone-btn plone-btn-primary plone-btn-sm">make current</a>
+            </td>
+          </tr>
+        </tal:loop>
+      </tbody>
+    </table>
   </tal:if>
 </metal:main>
 </body>
