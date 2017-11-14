@@ -75,7 +75,7 @@ class ManageView(BrowserView):
         )
         return self._message(
             _(
-                'New Gettext file for locale {locale} uploaded as '
+                'New Gettext file for locale ${locale} uploaded as '
                 '${filename}!',
                 mapping=dict(locale=form_input_locale, filename=filename),
             )
@@ -83,4 +83,48 @@ class ManageView(BrowserView):
 
     def delete(self):
         # link with querystring
-        pass
+        form_input_locale = self.request.form.get('locale', '')
+        if not form_input_locale:
+            raise ValueError('locale is missing!')
+        form_input_filename = self.request.form.get('filename', '')
+        if not form_input_filename:
+            raise ValueError('filename is missing!')
+        poapi.delete(self.domain, form_input_locale, form_input_filename)
+        return self._message(
+            _(
+                'Deleted Gettext file ${filename} for locale ${locale}',
+                mapping=dict(
+                    locale=form_input_locale,
+                    filename=form_input_filename
+                ),
+            )
+        )
+
+    def is_current(self, locale, filename):
+        info = poapi.info(self.domain)
+        return info['locales'][locale][filename]['current']
+
+    def current(self):
+        # link with querystring
+        form_input_locale = self.request.form.get('locale', '')
+        if not form_input_locale:
+            raise ValueError('locale is missing!')
+        form_input_filename = self.request.form.get('filename', '')
+        if not form_input_filename:
+            raise ValueError('filename is missing!')
+        poapi.update_locale(
+            self.domain,
+            form_input_locale,
+            form_input_filename,
+            current=True
+        )
+        return self._message(
+            _(
+                'Use Gettext file ${filename} for locale ${locale} as current '
+                'translations.',
+                mapping=dict(
+                    locale=form_input_locale,
+                    filename=form_input_filename
+                ),
+            )
+        )

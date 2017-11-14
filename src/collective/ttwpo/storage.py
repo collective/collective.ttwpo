@@ -47,7 +47,16 @@ class LocaleStorage(object):
     def get_version(self, version):
         """data of version
         """
-        return self.storage[version].data
+        data = self.storage[version].data
+        if isinstance(data, str):
+            return data
+
+        # we load the beast in memory - po files houldnt be too big, right?
+        result = ''
+        while data is not None:
+            result += data.data
+            data = data.next
+        return result
 
     def set_version(self, version, data):
         """create or update datat of a version

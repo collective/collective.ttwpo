@@ -7,6 +7,8 @@ from zope.i18n.gettextmessagecatalog import GettextMessageCatalog
 from zope.i18n.gettextmessagecatalog import PY2
 from persistent import Persistent
 
+_marker = dict()
+
 
 class LocalGettextMessageCatalog(Persistent, GettextMessageCatalog):
     """A persistent message catalog based on zope.i18n
@@ -19,15 +21,25 @@ class LocalGettextMessageCatalog(Persistent, GettextMessageCatalog):
         self.language = locale_storage.locale
         self.domain = locale_storage.domain.name
         self.reload()
-        self._catalog.add_fallback(_KeyErrorRaisingFallback())
+
+    @property
+    def _gettext(self):
         if PY2:
-            self._gettext = self._catalog.ugettext
-        else:
-            self._gettext = self._catalog.gettext
+            return self._catalog.ugettext
+        return self._catalog.gettext
 
     @property
     def locale_storage(self):
         return I18NDomainStorage(self.domain).locale(self.language)
+
+    @property
+    def _catalog(self):
+        catalog = getattr(self, '_v_catalog', _marker)
+        if catalog is _marker:
+            catalog = GNUTranslations(self._compiled_mo())
+            catalog.add_fallback(_KeyErrorRaisingFallback())
+            self._v_catalog = catalog
+        return catalog
 
     def reload(self):
         if self.locale_storage.current is None:
@@ -35,8 +47,9 @@ class LocalGettextMessageCatalog(Persistent, GettextMessageCatalog):
                 'can not load msg catalog: no current translation set for '
                 'domain={0}, langauge={1}'.format(self.domain, self.language)
             )
-        mo = self._compiled_mo()
-        self._catalog = GNUTranslations(mo)
+        if getattr(self, '_v_catalog', _marker):
+            delattr(self, '_v_catalog')
+        self._catalog
 
     def _compiled_mo(self):
         """turns a locale storage current PO into a MO as stringio"""

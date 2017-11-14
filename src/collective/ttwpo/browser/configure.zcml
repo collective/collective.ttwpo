@@ -59,6 +59,14 @@
         name="ttwpo-manage-upload"
         attribute="upload"
         />
+    <browser:page
+        name="ttwpo-manage-delete"
+        attribute="delete"
+        />
+    <browser:page
+        name="ttwpo-manage-current"
+        attribute="current"
+        />
   </browser:pages>
 
 </configure>

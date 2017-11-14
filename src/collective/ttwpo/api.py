@@ -175,43 +175,67 @@ def update_settings(domain, settings):
         domain_storage.settings.clear()
 
 
-def delete(domain, locale=None):
+def delete(domain, locale=None, filename=None):  # noqa: C901
     """Deletes a domain or a locale in a domain.
 
-    If locale is not given the whole domain will be deleted.
+    If locale  and filename is not given the whole domain will be deleted.
+    If filename is not given the whole locale will be deleted.
+    If both are given only the given filename is deleted.
+
+    Unregistration happen as needed.
 
     :param domain: name of the i18ndomain to delete
         (or its locale if given)
     :type domain: string
     :param locale: short name of locale to delete (optional).
     :type locale: string
+    :param filename: name of locale file to delete (optional).
+    :type filename: string
     :returns: None
     """
     if not is_existing_domain(domain):
         raise ValueError(
-            'translation domain "{domain}" does not exist.'.format(
+            'translation domain "${domain}" does not exist.'.format(
                 domain=domain
             )
         )
-    if not locale:
+    if not locale and not filename:
         # delete complete domain
         try:  # always try, if it fails it was not activated which is fine
             unregister_local_domain(domain)
         except ValueError:
             pass
         delete_domain(domain)
-    else:
-        domain_storage = I18NDomainStorage(domain)
-        if locale not in domain_storage.storage:
-            raise ValueError(
-                'locale {locale) does not exist in translation '
-                'domain "{domain}".'.format(
-                    domain=domain,
-                    locale=locale
-                )
+        return
+    domain_storage = I18NDomainStorage(domain)
+    if locale not in domain_storage.storage:
+        raise ValueError(
+            'locale {locale) does not exist in translation '
+            'domain "{domain}".'.format(
+                domain=domain,
+                locale=locale
             )
+        )
+    if not filename:
         do_reregister_domain = locale in domain_storage.locales
         domain_storage.storage.manage_delObjects([locale])
         if do_reregister_domain:
             unregister_local_domain(domain)
+            register_local_domain(domain)
+        return
+    locale_storage = domain_storage.locale(locale)
+    if filename not in locale_storage.versions:
+        raise ValueError(
+            'filename {filename} does not exist in locale ${locale) '
+            'of translation domain "{domain}".'.format(
+                domain=domain,
+                locale=locale,
+                filename=filename
+            )
+        )
+    was_current = filename == locale_storage.current
+    locale_storage.storage.manage_delObjects([filename])
+    if was_current:
+        unregister_local_domain(domain)
+        if domain_storage.languages():
             register_local_domain(domain)

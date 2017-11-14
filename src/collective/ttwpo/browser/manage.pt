@@ -48,11 +48,12 @@
           <tr tal:repeat="file python:info['locales'][locale]">
             <td>${file}</td>
             <td>
-              <a href="${python:context.absolute_url()}/ttwpo-manage-delete/${view/domain}?file=foo&_authenticator=${context/@@authenticator/token}"
+              <a href="${python:context.absolute_url()}/ttwpo-manage-delete/${view/domain}?locale=${locale}&filename=${file}&_authenticator=${context/@@authenticator/token}"
                  i18n:translate=""
                  role="button"
                  class="plone-btn plone-btn-danger plone-btn-sm">delete</a>
-              <a href="${python:context.absolute_url()}/ttwpo-manage-current/${view/domain}?file=foo&_authenticator=${context/@@authenticator/token}"
+              <a tal:condition="python: not view.is_current(locale, file)"
+                 href="${python:context.absolute_url()}/ttwpo-manage-current/${view/domain}?locale=${locale}&filename=${file}&_authenticator=${context/@@authenticator/token}"
                  i18n:translate=""
                  role="button"
                  class="plone-btn plone-btn-primary plone-btn-sm">make current</a>
