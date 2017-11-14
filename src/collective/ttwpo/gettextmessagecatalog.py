@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from collective.ttwpo.storage import I18NDomainStorage
 from gettext import GNUTranslations
 from pythongettext.msgfmt import Msgfmt
 from zope.i18n.gettextmessagecatalog import _KeyErrorRaisingFallback
@@ -15,7 +16,8 @@ class LocalGettextMessageCatalog(Persistent, GettextMessageCatalog):
 
     def __init__(self, locale_storage):
         """Initialize the message catalog"""
-        self.locale_storage = locale_storage
+        self.language = locale_storage.locale
+        self.domain = locale_storage.domain.name
         self.reload()
         self._catalog.add_fallback(_KeyErrorRaisingFallback())
         if PY2:
@@ -24,12 +26,8 @@ class LocalGettextMessageCatalog(Persistent, GettextMessageCatalog):
             self._gettext = self._catalog.gettext
 
     @property
-    def domain(self):
-        return self.locale_storage.domain.name
-
-    @property
-    def language(self):
-        return self.locale_storage.locale
+    def locale_storage(self):
+        return I18NDomainStorage(self.domain).locale(self.language)
 
     def reload(self):
         if self.locale_storage.current is None:
