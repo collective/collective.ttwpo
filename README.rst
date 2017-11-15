@@ -6,9 +6,7 @@
 collective.ttwpo
 =================
 
-**Work in progress!**
-
-Translations for Plone UI TTW with options to connect to translations services.
+Translations for Plone UI through-the-web (TTW) with option to connect to translation web-services.
 
 Features
 --------
@@ -64,6 +62,8 @@ Example using the ``Zanata`` webservice connector::
     eggs =
         collective.ttwpo[zanata]
 
+After installation activate it in the addons control-panel. 
+Visit the new ``TTW PO Support`` control-panel.
 
 
 Todo/ Nice-to-Have
