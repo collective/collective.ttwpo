@@ -6,14 +6,17 @@
 *.swp
 # dirs
 bin/
+build/
 buildout-cache/
 develop-eggs/
 devsrc/
+dist/
 eggs/
 htmlcov/
 include/
 lib/
 local/
+man/
 parts/
 src/*
 test.plone_addon/
