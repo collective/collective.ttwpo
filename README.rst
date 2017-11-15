@@ -102,6 +102,7 @@ If you want to help with the development (improvement, update, bug-fixing, ...) 
 The code is located in the `GitHub Collective <https://github.com/collective/collective.ttwpo>`_.
 
 You can clone it or `get access to the GitHub Collective <https://collective.github.com/>`_ and work directly on the project.
+Please always use pull-requests.
 
 Maintainers are Jens Klein and the `BlueDynamics Alliance <https://bluedynamics.com/>`_ developer team.
 
