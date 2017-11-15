@@ -35,10 +35,11 @@ For each i18n-domain provide a JSON configuration like so:
         "user":"johndoe",
         "token":"abcdef1234567890abcdef1234567890",
         "project": "mydemo.project",
-        "version": "master"
+        "version": "1.x",
+        "document": "zanata-document-name"
     }
 
-The key ``adpater`` is mandatory and used to look a up a named adapter.
+The key ``servicename`` is mandatory and used to look a up a named adapter.
 All other settings are adapter specific and are passed as-is to the adapter.
 
 
@@ -121,3 +122,4 @@ License
 -------
 
 The project is licensed under the GPLv2.
+
