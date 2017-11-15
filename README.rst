@@ -21,15 +21,8 @@ Features
 Current Limitations
 -------------------
 
-- it is not yet possible to override global, file-system configured (zcml) i18n-domains.
+- it is not yet possible to override global, file-system configured (zcml) i18n-domains (see todo).
 
-Examples
---------
-
-TODO
-
-Documentation
--------------
 
 Configuring a webservice
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -64,7 +57,13 @@ Install collective.ttwpo by adding it to your buildout::
         collective.ttwpo
 
 
-and then running ``bin/buildout``
+and then running ``bin/buildout``.
+
+Example using the ``Zanata`` webservice connector::
+
+    eggs =
+        collective.ttwpo[zanata]
+
 
 
 Todo/ Nice-to-Have
