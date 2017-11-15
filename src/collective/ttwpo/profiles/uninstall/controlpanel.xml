@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<object name="portal_controlpanel">
+  <configlet
+      action_id="ttwpo"
+      remove="true">
+  </configlet>
+</object>

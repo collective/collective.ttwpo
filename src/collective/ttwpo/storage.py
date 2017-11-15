@@ -81,7 +81,7 @@ class LocaleStorage(object):
 
     @current.setter
     def current(self, value):
-        if value not in self.versions:
+        if value is not None and value not in self.versions:
             raise ValueError('not a valid version')
         self.storage.current = value
 

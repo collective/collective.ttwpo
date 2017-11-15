@@ -67,6 +67,10 @@
         name="ttwpo-manage-current"
         attribute="current"
         />
+    <browser:page
+        name="ttwpo-manage-fetch"
+        attribute="fetch"
+        />
   </browser:pages>
 
 </configure>

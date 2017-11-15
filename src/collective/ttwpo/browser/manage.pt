@@ -35,18 +35,33 @@
             <td rowspan="${python:1 + len(info['locales'][locale])}">${locale}</td>
             <td>
               <form action="${python:context.absolute_url()}/ttwpo-manage-upload/${view/domain}" method="post" enctype="multipart/form-data">
-                <span tal:replace="structure context/@@authenticator/authenticator"/>
-                <input type="hidden" name="locale" value="${locale}" />
-                <input type="file" name="pofile" />
-                make current
-                <input type="checkbox" name="current" aria-label="set to current" />
-                <button class="btn plone-btn plone-btn-success" type="submit">Upload</button>
+                <div class="input-group input-group-sm">
+                  <span tal:replace="structure context/@@authenticator/authenticator"/>
+                  <input type="hidden" name="locale" value="${locale}" />
+                  <label class="btn plone-btn plone-btn-default">
+                    <input type="file" class="form-control" name="pofile" />
+                  </label>
+                  <label class="btn plone-btn plone-btn-default">
+                    <input type="checkbox" name="current" aria-label="set to current" /> make current
+                  </label>
+                  <span class="input-group-btn">
+                    <button class="btn plone-btn plone-btn-success" type="submit">Upload</button>
+                  </span>
+                </div>
               </form>
             </td>
-            <td><button class="btn plone-btn plone-btn-primary plone-btn-sm">fetch from Zanata</button></td>
+            <td>
+              <a tal:condition="python:info['settings'].get('servicename', None)"
+                 href="${python:context.absolute_url()}/ttwpo-manage-fetch/${view/domain}?locale=${locale}&_authenticator=${context/@@authenticator/token}"
+                 class="btn plone-btn plone-btn-primary plone-btn-sm"
+                 role="button"
+                 i18n:translate="">
+                fetch from <span i18n:name="servicename">${python:info['settings']['servicename']}</span>
+              </a>
+            </td>
           </tr>
-          <tr tal:repeat="file python:info['locales'][locale]">
-            <td>${file}</td>
+          <tr tal:repeat="file python:reversed(info['locales'][locale].keys())">
+            <td><strong tal:omit-tag="python:not view.is_current(locale, file)">${file}</strong></td>
             <td>
               <a href="${python:context.absolute_url()}/ttwpo-manage-delete/${view/domain}?locale=${locale}&filename=${file}&_authenticator=${context/@@authenticator/token}"
                  i18n:translate=""

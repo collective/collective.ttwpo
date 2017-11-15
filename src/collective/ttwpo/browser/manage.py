@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 from collective.ttwpo import _
 from collective.ttwpo import api as poapi
+from collective.ttwpo.interfaces import IWebserviceSynchronisation
 from plone import api
 from Products.Five import BrowserView
+from zope.component import queryUtility
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
@@ -125,6 +127,61 @@ class ManageView(BrowserView):
                 mapping=dict(
                     locale=form_input_locale,
                     filename=form_input_filename
+                ),
+            )
+        )
+
+    def fetch(self):
+        form_input_current = bool(self.request.form.get('current', False))
+        form_input_locale = self.request.form.get('locale', '')
+        if not form_input_locale:
+            raise ValueError('locale is missing!')
+        settings = self.info()['settings']
+        if 'servicename' not in settings:
+            raise ValueError('webserive not configured')
+        util = queryUtility(
+            IWebserviceSynchronisation,
+            name=settings['servicename']
+        )
+        if util is None:
+            return self._message(
+                _(
+                    'Configured webservice plugin "${webservice}" does '
+                    'not exist.',
+                    mapping=dict(webservice=settings['servicename']),
+                ),
+                'error',
+            )
+        result = util(settings, form_input_locale)
+        if result.get('error', False):
+            return self._message(
+                _(
+                    'Problem while trying to fetch from "${webservice}": '
+                    '"${message}"',
+                    mapping={
+                        'webservice': settings['servicename'],
+                        'message': result.get('message', 'unknown.'),
+                    }
+                ),
+                'error',
+            )
+
+            raise ValueError('Invalid')
+        poapi.update_locale(
+            self.domain,
+            form_input_locale,
+            result['filename'],
+            current=form_input_current,
+            data=result['data']
+        )
+        return self._message(
+            _(
+                'Gettext file ${filename} for locale ${locale} was fetched '
+                'from ${webservice}.',
+                mapping=dict(
+                    locale=form_input_locale,
+                    filename=result['filename'],
+                    webservice=settings['servicename'],
                 ),
             )
         )

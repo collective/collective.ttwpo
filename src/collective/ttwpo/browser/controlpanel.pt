@@ -44,7 +44,7 @@
                 <input type="hidden" name="domain" value="${domain}">
                 <textarea
                    name="sync-options"
-                   placeholder="expected: JSON mapping with at least one key 'type' and arbitary options matching the configured service."
+                   placeholder="expected: JSON mapping with key 'servicename' (i.e. zanata) and arbitary options matching configured service."
                    >${python: view.to_json(info['settings']) if info['settings'] else ''}</textarea>
                 <button
                    class="plone-btn plone-btn-primary plone-btn-sm"

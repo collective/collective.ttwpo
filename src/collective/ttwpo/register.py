@@ -1,11 +1,26 @@
 # -*- coding: utf-8 -*-
+from collective.ttwpo.gettextmessagecatalog import LocalGettextMessageCatalog
 from collective.ttwpo.storage import I18NDomainStorage
 from collective.ttwpo.storage import is_existing_domain
-from collective.ttwpo.gettextmessagecatalog import LocalGettextMessageCatalog
 from collective.ttwpo.translationdomain import LocalTranslationDomain
 from zope.component import getSiteManager
 from zope.component import queryUtility
 from zope.i18n import ITranslationDomain
+
+
+def is_local_domain_registered(name):
+    # check if this domain is already registered
+    td_util = queryUtility(ITranslationDomain, name=name)
+    if td_util is None:
+        return False
+    return isinstance(td_util, LocalTranslationDomain)
+
+
+def is_locale_registered(domain, locale):
+    if not is_local_domain_registered(domain):
+        return False
+    td_util = queryUtility(ITranslationDomain, name=domain)
+    return locale in td_util.getCatalogsInfo()
 
 
 def register_new_locale(domain, locale):
@@ -34,8 +49,7 @@ def register_local_domain(name):
         )
 
     # check if this domain is already registered
-    td_util = queryUtility(ITranslationDomain, name=name)
-    if td_util is not None:
+    if is_local_domain_registered(name):
         raise ValueError('Can not register already registered domain.')
 
     # looks like we are clear to go

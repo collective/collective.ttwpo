@@ -32,7 +32,24 @@ TODO
 Documentation
 -------------
 
-TODO
+Configuring a webservice
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+For each i18n-domain provide a JSON configuration like so:
+
+::
+
+    {
+        "servicename":"zanata",
+        "url":"https://zanata.mydomain.com/rest/",
+        "user":"johndoe",
+        "token":"abcdef1234567890abcdef1234567890",
+        "project": "mydemo.project",
+        "version": "master"
+    }
+
+The key ``adpater`` is mandatory and used to look a up a named adapter.
+All other settings are adapter specific and are passed as-is to the adapter.
 
 
 Installation

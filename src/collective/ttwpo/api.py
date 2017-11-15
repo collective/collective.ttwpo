@@ -4,16 +4,19 @@ This is the public API
 
 Use when interacting from browser views, control-panels and syncer code etc.
 """
+from collections import OrderedDict
+from collective.ttwpo.interfaces import IWebserviceSynchronisation
+from collective.ttwpo.register import is_local_domain_registered
+from collective.ttwpo.register import is_locale_registered
 from collective.ttwpo.register import register_local_domain
 from collective.ttwpo.register import register_new_locale
 from collective.ttwpo.register import reload_locale
 from collective.ttwpo.register import unregister_local_domain
-from collective.ttwpo.storage import domain_names
 from collective.ttwpo.storage import delete_domain
+from collective.ttwpo.storage import domain_names
 from collective.ttwpo.storage import I18NDomainStorage
 from collective.ttwpo.storage import is_existing_domain
-
-from collections import OrderedDict
+from zope.component import getUtilitiesFor
 
 
 def create(domain, locales=[]):
@@ -34,9 +37,17 @@ def create(domain, locales=[]):
 def domains():
     """All managed domains.
 
-    :returns: List of strings, each an translation domain identifier.
+    :returns: List of strings, each a translation domain identifier.
     """
     return domain_names()
+
+
+def webservices():
+    """names of  all webservice utilities
+
+    :returns: List of strings, each an translation domain identifier.
+     """
+    return [n for n, u in getUtilitiesFor(IWebserviceSynchronisation)]
 
 
 def info(domain):
@@ -82,7 +93,7 @@ def info(domain):
     result['settings'] = dict(domain_storage.settings)
     result['locales'] = OrderedDict()
     for locale in sorted(domain_storage.storage.objectIds()):
-        record = dict()
+        record = OrderedDict()
         result['locales'][locale] = record
         locale_storage = domain_storage.locale(locale)
         for version in locale_storage.storage.objectIds():
@@ -128,26 +139,34 @@ def update_locale(domain, locale, version, current=False, data=None):
     locale_storage = domain_storage.locale(locale)
 
     # record states before operations
-    has_activated_locales = bool(domain_storage.locales)
     given_version_is_active = version == locale_storage.current
-    do_activate_domain = current and not has_activated_locales
-    do_activate_locale = current and locale not in domain_storage.locales
+    do_activate_domain = current and not is_local_domain_registered(domain)
+    do_activate_locale = current and not given_version_is_active
     do_disable_locale = not current and given_version_is_active
 
     # storage interaction
     if data is not None:
         locale_storage.set_version(version, data)
-    if current and not given_version_is_active:
-        locale_storage.current = version
-        if not (do_activate_domain or do_activate_locale):
-            reload_locale(domain, locale)
 
-    # registrations
+    # activation, but no locale registration
+    if do_activate_locale:
+        locale_storage.current = version
+
+    # registrations/ activations
     if do_activate_domain:
         register_local_domain(domain)
-    elif do_activate_locale:
-        register_new_locale(domain, locale)
-    elif do_disable_locale:
+        # includes locale registration, in any case we are done here
+        return
+
+    #
+    if do_activate_locale:
+        if is_locale_registered(domain, locale):
+            reload_locale(domain, locale)
+        else:
+            register_new_locale(domain, locale)
+        # we are done
+        return
+    if do_disable_locale:
         unregister_local_domain(domain)
         if domain_storage.locales:
             register_local_domain(domain)
@@ -235,7 +254,8 @@ def delete(domain, locale=None, filename=None):  # noqa: C901
         )
     was_current = filename == locale_storage.current
     locale_storage.storage.manage_delObjects([filename])
+    locale_storage.current = None
     if was_current:
         unregister_local_domain(domain)
-        if domain_storage.languages():
+        if domain_storage.locales:
             register_local_domain(domain)

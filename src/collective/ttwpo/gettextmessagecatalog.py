@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from collective.ttwpo.storage import I18NDomainStorage
 from gettext import GNUTranslations
+from persistent import Persistent
 from pythongettext.msgfmt import Msgfmt
 from zope.i18n.gettextmessagecatalog import _KeyErrorRaisingFallback
 from zope.i18n.gettextmessagecatalog import GettextMessageCatalog
 from zope.i18n.gettextmessagecatalog import PY2
-from persistent import Persistent
 
 _marker = dict()
 
