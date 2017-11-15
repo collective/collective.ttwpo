@@ -13,7 +13,7 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="TTWPo translation service connector"
+      title="TTWPO UI translation service"
       directory="profiles/default"
       description="Installs the collective.ttwpo add-on."
       provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -22,7 +22,7 @@
 
   <genericsetup:registerProfile
       name="uninstall"
-      title="TTWPo translation service connector (uninstall)"
+      title="TTWPO UI translation service (uninstall)"
       directory="profiles/uninstall"
       description="Uninstalls the collective.ttwpo add-on."
       provides="Products.GenericSetup.interfaces.EXTENSION"
