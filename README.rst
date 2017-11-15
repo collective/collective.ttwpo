@@ -9,7 +9,7 @@ collective.ttwpo
 Translations for Plone UI through-the-web (TTW) with option to connect to translation web-services.
 
 Features
---------
+========
 
 - Create an i18n-domain and languages variants TTW (also delete them).
 - Add GNU Gettext (``*.po``) files TTW to a language.
@@ -17,13 +17,36 @@ Features
 - Fetch GNU Gettext files from configured translations services. So far only `Zanata <http://zanata.org/>`_ is supported.
 
 Current Limitations
--------------------
+===================
 
 - it is not yet possible to override global, file-system configured (zcml) i18n-domains (see todo).
 
 
+Installation
+============
+
+Install collective.ttwpo by adding it to your buildout::
+
+    [buildout]
+
+    ...
+
+    eggs =
+        collective.ttwpo
+
+
+and then running ``bin/buildout``.
+
+Example using the ``Zanata`` webservice connector::
+
+    eggs =
+        collective.ttwpo[zanata]
+
+After installation activate it in the addons control-panel.
+Visit the new ``TTW PO Support`` control-panel.
+
 Configuring a webservice
-~~~~~~~~~~~~~~~~~~~~~~~~
+========================
 
 For each i18n-domain provide a JSON configuration like so:
 
@@ -43,32 +66,8 @@ The key ``servicename`` is mandatory and used to look a up a named adapter.
 All other settings are adapter specific and are passed as-is to the adapter.
 
 
-Installation
-------------
-
-Install collective.ttwpo by adding it to your buildout::
-
-    [buildout]
-
-    ...
-
-    eggs =
-        collective.ttwpo
-
-
-and then running ``bin/buildout``.
-
-Example using the ``Zanata`` webservice connector::
-
-    eggs =
-        collective.ttwpo[zanata]
-
-After installation activate it in the addons control-panel. 
-Visit the new ``TTW PO Support`` control-panel.
-
-
 Todo/ Nice-to-Have
-------------------
+==================
 
 - Allow single users or groups to manage a language: create/delete/make current/sync.
 
@@ -90,7 +89,7 @@ Todo/ Nice-to-Have
 
 
 Contributions and Source Code
------------------------------
+=============================
 
 .. image:: https://travis-ci.org/collective/collective.ttwpo.svg?branch=master
     :target: https://travis-ci.org/collective/collective.ttwpo
@@ -117,9 +116,4 @@ If you are having issues, please let me know:
 
 This code was initially written for and paid by `Porsche Informatik Gesellschaft m.b.H. <https://www.porscheinformatik.at/>`_, Salzburg.
 
-
-License
--------
-
 The project is licensed under the GPLv2.
-
