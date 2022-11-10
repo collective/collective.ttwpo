@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-TEST_PO_DE = """\
+TEST_PO_DE = b"""\
 # Translation of testdomain.pot to German
 msgid ""
 msgstr ""
@@ -31,7 +31,7 @@ msgstr "$d Tage und $h Stunden"
 
 """
 
-TEST_PO_DE_2 = """\
+TEST_PO_DE_2 = b"""\
 # Translation of testdomain.pot to German
 msgid ""
 msgstr ""

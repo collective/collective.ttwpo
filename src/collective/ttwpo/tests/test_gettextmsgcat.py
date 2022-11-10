@@ -45,11 +45,11 @@ class TestTranslationDomain(unittest.TestCase):
         mo = lm._compiled_mo()
         modata = mo.read()
         self.assertIn(
-            '\xde\x12\x04',
+            b'\xde\x12\x04',
             modata,
         )
         self.assertIn(
-            'Columbo',
+            b'Columbo',
             modata,
         )
 

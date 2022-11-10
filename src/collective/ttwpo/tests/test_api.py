@@ -44,8 +44,8 @@ class TestApi(unittest.TestCase):
         from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
         zd.settings['foo'] = 'bar'
-        zd.locale('de').set_version('v1', '#testdata1')
-        zd.locale('de').set_version('v2', '#testdata2')
+        zd.locale('de').set_version('v1', b'#testdata1')
+        zd.locale('de').set_version('v2', b'#testdata2')
         zd.locale('de').current = 'v2'
         self.assertDictEqual(
             api.info('testdomain'),
@@ -68,7 +68,7 @@ class TestApi(unittest.TestCase):
                 'de',
                 'v1',
                 current=True,
-                data='#testdata1'
+                data=b'#testdata1'
             )
 
     def test_update_locale_nonexisting_locale(self):
@@ -80,7 +80,7 @@ class TestApi(unittest.TestCase):
                 'de',
                 'v1',
                 current=True,
-                data='#testdata1'
+                data=b'#testdata1'
             )
 
     def test_update_locale_initial_non_current(self):
@@ -91,7 +91,7 @@ class TestApi(unittest.TestCase):
             'de',
             'v1',
             current=True,
-            data='#testdata1'
+            data=b'#testdata1'
         )
         from zope.component import queryUtility
         from zope.i18n import ITranslationDomain
@@ -186,7 +186,7 @@ class TestApi(unittest.TestCase):
                 lang,
                 'v1',
                 current=True,
-                data='#testdata1 {0}'.format(lang)
+                data='#testdata1 {0}'.format(lang).encode()
             )
         from zope.component import queryUtility
         from zope.i18n import ITranslationDomain
@@ -250,7 +250,7 @@ class TestApi(unittest.TestCase):
                 lang,
                 'v1',
                 current=False,
-                data='#testdata1 {0}'.format(lang)
+                data='#testdata1 {0}'.format(lang).encode()
             )
         from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
@@ -274,7 +274,7 @@ class TestApi(unittest.TestCase):
                 lang,
                 'v1',
                 current=True,
-                data='#testdata1 {0}'.format(lang)
+                data='#testdata1 {0}'.format(lang).encode()
             )
         from collective.ttwpo.storage import I18NDomainStorage
         zd = I18NDomainStorage('testdomain')
