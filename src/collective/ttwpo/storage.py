@@ -48,7 +48,7 @@ class LocaleStorage(object):
         """data of version
         """
         data = self.storage[version].data
-        if isinstance(data, str):
+        if isinstance(data, bytes):
             return data
 
         # we load the beast in memory - po files houldnt be too big, right?

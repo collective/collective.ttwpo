@@ -5,7 +5,6 @@ from persistent import Persistent
 from pythongettext.msgfmt import Msgfmt
 from zope.i18n.gettextmessagecatalog import _KeyErrorRaisingFallback
 from zope.i18n.gettextmessagecatalog import GettextMessageCatalog
-from zope.i18n.gettextmessagecatalog import PY2
 
 _marker = dict()
 
@@ -24,8 +23,6 @@ class LocalGettextMessageCatalog(Persistent, GettextMessageCatalog):
 
     @property
     def _gettext(self):
-        if PY2:
-            return self._catalog.ugettext
         return self._catalog.gettext
 
     @property
@@ -54,7 +51,7 @@ class LocalGettextMessageCatalog(Persistent, GettextMessageCatalog):
     def _compiled_mo(self):
         """turns a locale storage current PO into a MO as stringio"""
         datalines = [
-            l for l in self.locale_storage().split('\n')
+            l for l in self.locale_storage().split(b'\n')
             if l.strip()
         ]
         mf = Msgfmt(datalines, name=self.domain)

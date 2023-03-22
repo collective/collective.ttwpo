@@ -41,9 +41,9 @@ class TestStorage(unittest.TestCase):
         zd = I18NDomainStorage('testdomain')
         lang = zd.locale('de')
 
-        lang.set_version('one', 'some test data')
+        lang.set_version('one', b'some test data')
         self.assertIn('one', lang.storage)
-        self.assertEqual(lang.get_version('one'), 'some test data')
+        self.assertEqual(lang.get_version('one'), b'some test data')
 
     def test_locale_current(self):
         from collective.ttwpo.storage import I18NDomainStorage
@@ -54,12 +54,12 @@ class TestStorage(unittest.TestCase):
         with self.assertRaises(ValueError):
             lang.current = 'nonexisting'
 
-        lang.set_version('existing', 'some test data')
-        self.assertEqual(lang.get_version('existing'), 'some test data')
+        lang.set_version('existing', b'some test data')
+        self.assertEqual(lang.get_version('existing'), b'some test data')
 
         lang.current = 'existing'
         self.assertEqual(lang.current, 'existing')
-        self.assertEqual(lang(), 'some test data')
+        self.assertEqual(lang(), b'some test data')
 
     def test_locales_empty(self):
         from collective.ttwpo.storage import I18NDomainStorage
@@ -78,6 +78,6 @@ class TestStorage(unittest.TestCase):
         zd = I18NDomainStorage('testdomain')
         zd.locale('it')
         lang_de = zd.locale('de')
-        lang_de.set_version('v1', 'some test data')
+        lang_de.set_version('v1', b'some test data')
         lang_de.current = 'v1'
         self.assertListEqual(zd.locales, ['de'])
