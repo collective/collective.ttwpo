@@ -1,4 +1,7 @@
 graft src/collective
 graft docs
 include *.rst
+include LICENSE.GPL
+include bootstrap.sh
+include requirements.txt
 global-exclude *.pyc
