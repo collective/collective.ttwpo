@@ -1,8 +1,8 @@
 Changelog
 =========
 
-2.0b1.dev0 (unreleased)
------------------------
+2.0b1 (2023-03-22)
+------------------
 
 - Migrate to Python 3
   [daggelpop]
